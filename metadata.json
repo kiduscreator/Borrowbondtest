@@ -1,0 +1,6 @@
+{
+  "name": "BorrowBond",
+  "description": "Intelligent peer-to-peer marketplace where individuals, businesses, and authorized AI agents discover, rent, and temporarily access physical and digital resources through transparent borrowing agreements, refundable collateral, and NEAR-powered escrow.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

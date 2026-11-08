@@ -1,0 +1,1318 @@
+MASTER BUILD PROMPT — BORDBOND
+
+NEAR HACKATHON 2026 | Full Product, Design, Engineering & Deployment Specification
+
+Act as a senior product architect, world-class UI/UX designer, full-stack engineer, NEAR blockchain developer, AI agent engineer, cybersecurity specialist, QA engineer and technical writer.
+
+Your task is to design and build BorrowBond, a polished, genuinely functional, AI-powered borrowing marketplace for the 2026 NEAR Hackathon.
+
+Do not create just a landing page, Figma-style mockup or collection of non-functional screens. Build a working application with a real frontend, backend functionality, NEAR testnet smart contract, AI agent tools, security controls, automated tests and deployment documentation.
+
+Work carefully. Verify current library versions and official NEAR documentation before implementing blockchain functionality. Never invent SDK methods, contract behavior, API integrations or successful transactions.
+
+---
+
+1. PRODUCT IDENTITY
+
+Product: BorrowBond
+
+Tagline: Borrow anything. Secure every agreement.
+
+Product description:
+
+BorrowBond is an intelligent peer-to-peer marketplace where individuals, businesses and authorized AI agents can discover, rent and temporarily access physical and digital resources through transparent borrowing agreements, refundable collateral and NEAR-powered escrow.
+
+BorrowBond has two connected marketplaces:
+
+1. Physical resources — cameras, laptops, projectors, tools, equipment, bicycles and other belongings.
+2. Digital resources — API access, computing capacity, licensed datasets, digital assets and other legitimately shareable digital resources.
+
+Both marketplaces share one financial agreement and collateral system, but have different delivery, access, return and dispute workflows.
+
+Core purpose: Make unused resources accessible, temporary borrowing easier, payments more accountable and digital resource access more programmable.
+
+Do not change this central concept into a lending application for borrowing money. BorrowBond is about temporarily borrowing or renting resources, not taking personal loans.
+
+---
+
+2. THE PRODUCT'S MAIN INNOVATION
+
+Build around five connected capabilities:
+
+A. Unified borrowing marketplace
+
+Users can list, discover and borrow both physical and digital resources in one application.
+
+B. AI Borrowing Agent
+
+Users describe what they need in natural language. The agent searches listings, compares conditions, recommends suitable offers and prepares borrowing agreements.
+
+C. AI Security Agent
+
+A security layer checks spending permissions, provider reputation signals, unusual conditions, collateral and potentially suspicious listings.
+
+D. NEAR programmable escrow
+
+The smart contract locks rental fees and refundable collateral, manages agreement states and releases funds according to transparent settlement rules.
+
+E. Temporary access management
+
+For digital resources, BorrowBond can issue temporary credentials, enforce usage limits and revoke access when a rental expires.
+
+The AI agent must perform genuine tool-based actions. It must not be a decorative chatbot.
+
+---
+
+3. USERS AND ROLES
+
+Support three user capabilities:
+
+- Borrower: searches for resources and creates borrowing requests.
+- Lender/provider: lists resources, defines terms and manages borrowing requests.
+- AI agent: acts on behalf of a user within explicitly defined permissions.
+
+A user can be both a borrower and a lender.
+
+Use NEAR wallet authentication for blockchain-related operations. Where additional account/profile functionality is required, use a secure authentication approach without pretending that wallet connection is identity verification.
+
+Never display an unverified person as KYC-verified.
+
+---
+
+4. COMPLETE USER EXPERIENCE AND APPLICATION PAGES
+
+Build a complete responsive application with the following pages and flows.
+
+4.1 Landing page
+
+Create a premium, high-conversion landing page.
+
+Include:
+
+- Professional navigation and BorrowBond branding.
+- Hero headline: "Borrow anything. Secure every agreement."
+- Clear explanation of physical and digital borrowing.
+- Search bar with natural-language input.
+- Two prominent category cards: Physical and Digital.
+- Featured resources.
+- How BorrowBond works.
+- AI Borrowing Agent introduction.
+- NEAR escrow explanation.
+- Trust and security section.
+- Lender/provider onboarding section.
+- FAQ section.
+- Strong but tasteful calls to action.
+- Professional footer with project, documentation and social links.
+
+The hero must communicate the product immediately. Avoid vague Web3 marketing language.
+
+4.2 Marketplace
+
+Create a real marketplace interface.
+
+Include:
+
+- All / Physical / Digital category selector.
+- Search and category filters.
+- Price range.
+- Collateral range.
+- Borrowing duration.
+- Availability.
+- Provider reputation.
+- Sorting by relevance, price and newest.
+- Listing cards with images, category, price, collateral, duration and availability.
+- Separate labels for rental fee and refundable collateral.
+
+Do not mix the two amounts or misrepresent the total payment.
+
+Every filter and control must work.
+
+4.3 Listing details
+
+Each listing must have a detailed page.
+
+Common fields:
+
+- Name and description.
+- Owner/provider profile.
+- Category and resource type.
+- Rental fee.
+- Required collateral.
+- Borrowing duration.
+- Availability.
+- Terms and restrictions.
+- Cancellation policy.
+- Borrower requirements.
+- Relevant history or reputation indicators.
+
+Physical-specific details:
+
+- Item photographs.
+- Estimated item value, clearly identified as owner-provided unless independently verified.
+- Condition description.
+- Included accessories.
+- Pickup/return arrangements.
+- Handover and return confirmation procedure.
+
+Digital-specific details:
+
+- Resource description.
+- Provider.
+- Access scope.
+- Usage limits.
+- Duration.
+- Expiration rules.
+- Technical requirements.
+- Supported integration or demo API.
+- Data and licensing restrictions.
+
+Never expose a provider's private API keys, passwords or confidential endpoint credentials in public listing data.
+
+4.4 Create-listing wizard
+
+Build a guided listing creation flow.
+
+First ask whether the provider is listing a physical or digital resource.
+
+Shared fields:
+
+- Resource title.
+- Description.
+- Category.
+- Rental fee.
+- Required collateral.
+- Availability.
+- Minimum and maximum duration.
+- Conditions.
+- Cancellation policy.
+
+Physical listing fields:
+
+- Item images.
+- Condition.
+- Owner-estimated value.
+- Accessories.
+- Pickup/return instructions.
+- Handover evidence requirements.
+
+Digital listing fields:
+
+- Resource/service type.
+- Access duration.
+- Allowed permissions.
+- Usage quota.
+- Provider configuration.
+- Expiration behavior.
+- Access provisioning method.
+
+The form must validate amounts, dates, limits and required fields.
+
+4.5 Borrowing checkout
+
+Create a detailed checkout before a transaction is signed.
+
+Display:
+
+- Selected resource.
+- Owner/provider.
+- Rental duration.
+- Rental fee.
+- Refundable collateral.
+- Total amount required.
+- Cancellation rules.
+- Expected return or access-expiration time.
+- Dispute conditions.
+- Network and wallet information.
+
+Require explicit user acceptance.
+
+The borrower must approve and sign the blockchain transaction through their wallet.
+
+Never let an AI action secretly sign or submit a financial transaction.
+
+4.6 User dashboard
+
+Build a professional dashboard with:
+
+- Active borrowings.
+- Pending requests.
+- Listed resources.
+- Borrowing history.
+- Lending history.
+- Locked collateral.
+- Upcoming return deadlines.
+- Digital access status.
+- Disputes.
+- Transaction history.
+- Profile and reputation information.
+
+Clearly distinguish pending, active, completed, cancelled and disputed transactions.
+
+4.7 Transaction details and timeline
+
+Every borrowing agreement must have a detailed transaction page.
+
+Display:
+
+- Booking reference.
+- On-chain transaction hash.
+- Network.
+- Contract address.
+- Parties involved.
+- Resource information.
+- Payment breakdown.
+- Agreement status.
+- Relevant timestamps.
+- Evidence history.
+- Status changes.
+- Available actions.
+
+Include links to the relevant NEAR testnet explorer when transaction data is available.
+
+Do not display fabricated transaction hashes.
+
+---
+
+5. PHYSICAL BORROWING WORKFLOW
+
+Build the physical borrowing flow properly.
+
+Example: a person borrows another person's camera.
+
+1. Owner creates a camera listing.
+2. Borrower finds the listing.
+3. AI agent compares price, collateral, availability and provider reputation.
+4. Borrower accepts the terms.
+5. Borrower locks the rental fee and collateral through NEAR.
+6. Lender accepts the booking.
+7. Both parties confirm the physical handover.
+8. Borrower uses the item during the agreed period.
+9. Borrower requests return.
+10. Both parties document and confirm the item's returned condition.
+11. When both confirm satisfactory return, the contract settles the rental fee to the lender and returns the collateral to the borrower.
+
+Physical evidence
+
+Support:
+
+- Before/after photographs.
+- Item condition notes.
+- Timestamps.
+- One-time QR or booking confirmation codes.
+- Handover and return confirmations.
+- Evidence file storage.
+
+Store evidence files securely off-chain and record their content hashes or references in the appropriate agreement records.
+
+Do not claim that a QR scan or photograph proves that an item was physically delivered or is undamaged. It is supporting evidence.
+
+Physical dispute handling
+
+If an item is damaged, missing or not returned:
+
+- Either party can open a dispute.
+- The collateral remains locked.
+- Both parties can submit evidence.
+- A designated human resolver can review the case.
+- The resolution must be recorded.
+- Only an authorized, transparent resolution process can release disputed funds.
+
+Never automatically confiscate all collateral merely because a deadline passed.
+
+Never promise that BorrowBond can physically retrieve stolen belongings or guarantee full compensation.
+
+---
+
+6. DIGITAL BORROWING WORKFLOW
+
+Digital borrowing should be a genuinely working technical feature, not just an illustrated interface.
+
+For the MVP, implement a controlled Demo API Provider.
+
+Example: a developer rents a demo API for a limited period.
+
+1. Provider lists a digital resource.
+2. Borrower selects the resource and permitted usage.
+3. AI agent compares the available options.
+4. Borrower accepts the agreement.
+5. The rental fee and collateral are locked through NEAR.
+6. Provider accepts the booking.
+7. BorrowBond's backend verifies that the booking is active on-chain.
+8. The backend issues a temporary API credential.
+9. The borrower makes real requests to the controlled demo API gateway.
+10. The gateway checks the credential, expiration, active booking and usage quota.
+11. When the rental expires or the quota is exhausted, access is denied or revoked according to the agreement.
+12. Collateral is refunded after the agreed completion and dispute conditions are satisfied.
+
+Digital access security requirements
+
+- Never place private provider credentials in frontend code.
+- Store only hashed temporary borrower tokens where possible.
+- Show the generated credential to the authorized borrower only.
+- Never log API secrets.
+- Enforce expiration and usage quotas on the server.
+- Reject expired, revoked or invalid credentials.
+- Verify booking state through trusted backend logic and NEAR contract data.
+- Do not trust frontend claims that a booking is active.
+- Rate-limit API requests.
+- Prevent unauthorized access to another user's credentials or usage records.
+- Do not allow arbitrary user-provided URLs to be fetched by the backend. This can create server-side request forgery risks.
+- For the first demo, use a predefined controlled API endpoint rather than integrating random third-party providers.
+
+Build a working endpoint such as a demo resource API that returns a response while the credential is active, records usage and refuses requests once the quota or expiry condition is reached.
+
+---
+
+7. AI BORROWING AGENT
+
+This is a central feature and must be implemented as a tool-using assistant.
+
+Use a provider abstraction so the application can use Gemini through a secure server-side integration when configured.
+
+Support a rules-based fallback when no AI API key is configured.
+
+Never expose "GEMINI_API_KEY" or another AI provider secret in browser code.
+
+Natural-language example
+
+User:
+
+"I need a camera for three days. My total budget is 0.5 NEAR. Find a reliable offer with reasonable collateral."
+
+The agent should:
+
+1. Understand the requested resource.
+2. Extract duration, budget and preferences.
+3. Search actual marketplace listings.
+4. Filter unavailable or incompatible offers.
+5. Compare rental fee, collateral and total cost.
+6. Assess available provider and transaction reputation signals.
+7. Recommend the most suitable offers.
+8. Explain why an offer was selected.
+9. Prepare a booking draft.
+10. Run the security and budget checks.
+11. Display the full payment breakdown.
+12. Ask the user to approve and sign through their wallet.
+
+Agent tool definitions
+
+Implement clear, validated application tools such as:
+
+- "search_listings"
+- "get_listing_details"
+- "compare_offers"
+- "check_availability"
+- "estimate_collateral"
+- "check_spending_policy"
+- "assess_provider_signals"
+- "prepare_booking"
+- "get_booking_status"
+- "submit_handover_confirmation"
+- "request_return"
+- "open_dispute"
+- "get_digital_access_status"
+
+Each tool must have:
+
+- A well-defined input schema.
+- Validated parameters.
+- Authorization checks.
+- Clear success and error responses.
+- Logging of meaningful actions.
+- Appropriate rate limits.
+
+The AI agent must use actual application data rather than inventing listings, prices, ratings or availability.
+
+Human approval
+
+The AI may search, compare, calculate, draft agreements and recommend actions.
+
+However, on-chain financial transactions require explicit user approval and wallet signing.
+
+Never give the language model a private key or unrestricted wallet access.
+
+---
+
+8. AI SECURITY AGENT
+
+Implement a second logical layer focused on protecting the borrower and marketplace.
+
+It should check:
+
+- Whether the total payment exceeds the user's budget.
+- Whether collateral exceeds the user's permitted maximum.
+- Whether the listing meets the user's permitted categories.
+- Whether the duration is permitted.
+- Whether the provider has relevant completed transactions.
+- Whether the listing has missing or suspicious information.
+- Whether requested digital access is broader than necessary.
+- Whether the borrowing agreement contains unusual conditions.
+
+Policy settings
+
+Allow users to configure:
+
+- Maximum rental fee.
+- Maximum collateral.
+- Maximum total payment.
+- Allowed resource categories.
+- Maximum borrowing duration.
+- Approved providers or excluded providers.
+- Whether every booking requires manual confirmation.
+
+Security rules
+
+Use deterministic backend checks for critical spending limits. AI may identify risks and explain them, but must not override policy rules.
+
+Treat all listing descriptions, provider text and external data as untrusted input. Prevent prompt injection from turning a listing into instructions for the agent.
+
+Do not claim that the system guarantees scam detection or verifies real-world identity.
+
+---
+
+9. COLLATERAL AND REPUTATION ENGINE
+
+Create a transparent collateral recommendation engine.
+
+Inputs can include:
+
+- Owner-estimated resource value.
+- Resource category.
+- Rental duration.
+- Provider's chosen minimum collateral.
+- Borrower's completed transaction history.
+- Relevant dispute history.
+- Usage permissions for digital resources.
+
+Output:
+
+- Recommended collateral range.
+- Factors affecting the recommendation.
+- Explanation.
+- A clear indication that it is a recommendation, not insurance or a guarantee.
+
+The lender sets acceptable terms. The borrower can accept or reject them.
+
+Do not secretly alter prices, collateral or agreement terms.
+
+Reputation
+
+Build a basic transaction-based reputation system.
+
+Use verifiable completed transaction records and appropriately moderated reviews.
+
+Distinguish:
+
+- Completed borrowing count.
+- Completed lending count.
+- Disputes.
+- Cancellation history.
+- Reviews.
+- Account age, where available.
+
+Never fabricate ratings, verified badges or trust scores.
+
+Avoid unfairly treating a new user as a scammer simply because they have no history.
+
+---
+
+10. NEAR BLOCKCHAIN AND SMART CONTRACT
+
+Build a genuine NEAR testnet smart contract.
+
+Use the current stable NEAR Rust SDK and official recommended build tooling. Verify compatibility with current official documentation. Use "cargo near" where appropriate.
+
+Do not substitute a frontend-only transaction simulation for a real contract.
+
+MVP currency
+
+Use native NEAR on testnet for the prototype's rental fees and collateral.
+
+Represent token values accurately in yoctoNEAR or the current SDK's appropriate token type.
+
+Do not claim that testnet balances are real USD value. Do not use mainnet funds for the hackathon prototype.
+
+Keep any USD-style display clearly marked as an estimate and do not invent an exchange rate.
+
+Agreement data
+
+An on-chain booking should record at least:
+
+- Unique booking ID.
+- Listing/reference ID.
+- Lender account.
+- Borrower account.
+- Resource type.
+- Rental fee.
+- Collateral.
+- Total escrowed amount.
+- Creation time.
+- Acceptance deadline.
+- Rental start and end.
+- Status.
+- Dispute status.
+- Settlement information.
+
+Use validated account IDs and checked integer arithmetic.
+
+Booking state machine
+
+Implement a clear and tested state machine, for example:
+
+"REQUESTED → ACCEPTED → ACTIVE → RETURN_REQUESTED → COMPLETED"
+
+Alternative paths:
+
+"REQUESTED → CANCELLED"
+
+"REQUESTED → EXPIRED"
+
+"ACTIVE → DISPUTED → RESOLVED"
+
+The contract must reject invalid transitions.
+
+Required contract capabilities
+
+- Create booking with the exact required attached payment.
+- Accept or reject a booking.
+- Cancel a booking under permitted conditions.
+- Confirm start/handover as required by the resource type.
+- Request return.
+- Confirm satisfactory return.
+- Open a dispute.
+- Resolve a dispute through the authorized process.
+- Settle rental fees and collateral.
+- Track claimable balances or use another secure, well-tested transfer pattern.
+- Provide booking and transaction views.
+
+Critical fund safety
+
+When both sides confirm a satisfactory return:
+
+- Rental fee is credited to the lender.
+- Collateral is credited back to the borrower.
+
+If the booking is cancelled before acceptance under the defined rules, refund the appropriate amount.
+
+If a dispute is opened, freeze the disputed amount.
+
+A designated resolver may allocate the disputed amount according to the published agreement. Clearly disclose the resolver's authority and avoid pretending that this is fully decentralized arbitration.
+
+Do not implement unilateral automatic confiscation for physical non-return or damage.
+
+Handle payout failures safely. Avoid losing bookkeeping state if an external transfer fails. Use a tested claimable withdrawal or equivalent safe accounting pattern.
+
+Prevent double settlement, re-entrancy-style logic errors, unauthorized calls, replayed confirmations and unauthorized dispute resolution.
+
+Write contract unit tests and integration tests.
+
+Testnet deployment
+
+- Build the contract.
+- Create/use a NEAR testnet development account.
+- Deploy to testnet.
+- Initialize it safely.
+- Record the real contract account ID.
+- Connect the frontend to the deployed contract.
+- Show transaction status and explorer links.
+- Document deployment and contract initialization.
+
+Do not invent a contract address. Do not claim deployment succeeded until verified.
+
+---
+
+11. APPLICATION ARCHITECTURE
+
+Use a maintainable, practical stack.
+
+Recommended architecture:
+
+Frontend
+
+- Next.js App Router.
+- TypeScript.
+- Tailwind CSS.
+- shadcn/ui or accessible custom components.
+- Lucide icons.
+- Framer Motion for subtle animations.
+- React Hook Form and Zod where useful.
+
+Backend
+
+- Next.js route handlers for server-side operations.
+- Supabase PostgreSQL, authentication and storage where configured.
+- Secure server-side AI provider integration.
+- Controlled API gateway for the demo digital resource.
+- Server-side authorization and policy checks.
+
+Blockchain
+
+- Rust.
+- Current NEAR SDK.
+- NEAR testnet.
+- NEAR wallet connection using the currently supported wallet integration.
+
+Testing
+
+- Contract unit tests.
+- NEAR integration/sandbox tests where supported.
+- Frontend component and utility tests.
+- Playwright end-to-end tests for core user journeys.
+
+Deployment
+
+- Public GitHub repository.
+- Vercel deployment connected to GitHub.
+- Secure environment-variable configuration.
+- GitHub Actions CI.
+
+You may choose an equally reliable alternative if the current tools make this stack unsuitable, but explain the reason before changing the architecture.
+
+Keep the project modular. Do not put blockchain, AI, database and UI logic in one enormous component.
+
+---
+
+12. DATABASE DESIGN
+
+Create a properly structured schema with appropriate indexes, relationships and authorization policies.
+
+Suggested tables:
+
+- "profiles"
+- "listings"
+- "bookings"
+- "booking_evidence"
+- "disputes"
+- "reviews"
+- "agent_sessions"
+- "agent_actions"
+- "spending_policies"
+- "digital_access_credentials"
+- "digital_usage_events"
+- "notifications"
+
+Suggested important fields:
+
+Profiles: wallet account ID, display name, avatar, bio, profile status, created time.
+
+Listings: owner ID, physical/digital type, title, description, category, images, price, collateral, availability, duration, conditions, digital configuration reference, status.
+
+Bookings: contract booking ID, listing ID, lender, borrower, fee, collateral, duration, on-chain transaction references, status.
+
+Evidence: booking ID, uploader, file reference, content hash, evidence type, timestamp.
+
+Disputes: booking ID, opened by, reason, evidence references, status, resolver, outcome.
+
+Digital credentials: booking ID, token hash, expiration, quota, usage count, revocation status.
+
+Use row-level security or equivalent authorization so users cannot read or alter other users' private records.
+
+Never store plaintext private API keys in public listing records or frontend-accessible database fields.
+
+Do not store unnecessary identity documents or sensitive personal data in this MVP.
+
+---
+
+13. PROFESSIONAL UI/UX DESIGN SYSTEM
+
+The interface is a major part of the product. It must look like a carefully designed, credible fintech and AI marketplace—not a generic AI-generated Web3 template.
+
+Visual direction
+
+Create a refined, modern, premium digital product aesthetic.
+
+Use:
+
+- Deep midnight navy as the main dark theme foundation.
+- Layered slate/blue surfaces.
+- A restrained electric teal or mint accent for positive actions.
+- A clear secondary blue accent.
+- Neutral gray typography.
+- Elegant borders, subtle shadows and carefully controlled gradients.
+
+Suggested starting palette:
+
+- Background: "#0B1020"
+- Elevated surface: "#121B2C"
+- Card surface: "#172338"
+- Primary text: "#F3F6FC"
+- Secondary text: "#A4B0C4"
+- Teal accent: "#5EEAD4"
+- Blue accent: "#8297FF"
+- Success: "#34D399"
+- Warning: "#FBBF24"
+- Error: "#F87171"
+
+Use these as starting values, not rigid restrictions. Check contrast and readability.
+
+Typography
+
+Use a distinctive professional type system:
+
+- Space Grotesk for large headings, display text and prominent numbers.
+- DM Sans for body text, navigation, forms, descriptions and controls.
+
+Load the fonts responsibly, use suitable fallback fonts and maintain consistent hierarchy.
+
+Avoid using too many font weights or oversized typography.
+
+UI principles
+
+- Mobile-first responsive layout.
+- Excellent desktop and tablet composition.
+- Consistent spacing system.
+- Clean alignment.
+- Clear information hierarchy.
+- Generous whitespace.
+- Attractive resource photographs.
+- Consistent button styles.
+- Accessible forms.
+- Clear focus indicators.
+- Readable data tables.
+- Well-designed empty states.
+- Helpful loading skeletons.
+- Friendly success/error notifications.
+- Confirmation dialogs for irreversible actions.
+
+Motion
+
+Use Framer Motion selectively:
+
+- Smooth page transitions.
+- Subtle hover states.
+- Button feedback.
+- Card entrance animations.
+- Dialog transitions.
+- Loading states.
+- Timeline state changes.
+
+Keep motion smooth and restrained. Respect "prefers-reduced-motion".
+
+Do not sacrifice performance for animation.
+
+Visual assets
+
+Use appropriate licensed and high-quality photographs for sample listings.
+
+Use Lucide icons consistently. Do not use random emoji as application icons.
+
+Use real product assets, consistent cropping and professional imagery.
+
+Do not make the UI visually crowded or fill every card with gradients.
+
+Quality standard
+
+The result should feel comparable to a polished modern SaaS/fintech product.
+
+Every screen must share the same design system.
+
+Avoid:
+
+- Generic template layouts.
+- Excessive glowing borders.
+- Random purple gradients everywhere.
+- Fake charts.
+- Fake wallet balances.
+- Fake reviews.
+- Fake transaction activity.
+- Inert buttons.
+- Placeholder text left in finished screens.
+
+---
+
+14. SPECIAL QUALITY FEATURES
+
+Add the following where practical without making the MVP unnecessarily complicated:
+
+1. BorrowBond Quick Match: AI finds the best offers based on a user's natural-language request.
+2. Offer Comparison: Compare fee, collateral, duration, provider reputation and restrictions.
+3. Transaction Timeline: Clearly display every important borrowing and settlement event.
+4. Collateral Explanation: Show why the collateral is required and what can happen to it.
+5. Digital Access Dashboard: Show active credentials, usage, remaining time and revocation.
+6. Physical Condition Record: Before/after photographs and both-party confirmations.
+7. Borrowing Passport: A user's completed borrowing/lending history and verifiable transaction reputation.
+8. Notifications: Booking accepted, payment locked, access activated, return approaching, dispute opened and settlement completed.
+9. Network Status: Clearly show whether the user is connected to NEAR testnet.
+10. Demo Mode Indicator: Clearly distinguish demo data from verified blockchain and backend records.
+
+Prioritize functional correctness over adding every optional feature.
+
+---
+
+15. SECURITY AND PRIVACY REQUIREMENTS
+
+Treat security as a core requirement.
+
+- Never commit secrets, API keys, private keys or wallet credentials.
+- Provide ".env.example" with placeholder variable names only.
+- Keep secrets server-side.
+- Validate inputs on both frontend and backend.
+- Enforce authorization on every sensitive backend operation.
+- Use database row-level security.
+- Rate-limit agent and API gateway requests.
+- Protect against cross-site scripting and injection.
+- Sanitize uploaded metadata.
+- Restrict file types and sizes.
+- Prevent arbitrary URL fetching by backend services.
+- Protect against prompt injection.
+- Use least-privilege permissions.
+- Never give an AI model unrestricted wallet access.
+- Require wallet confirmation for every financial transaction.
+- Ensure a user cannot settle, cancel or modify another person's booking.
+- Never let the frontend alone determine that collateral should be released.
+- Make disputes and resolver decisions auditable.
+- Add a clear testnet-only warning.
+
+Do not claim that this prototype is audited, insured, legally compliant or production-secure.
+
+---
+
+16. DEMONSTRATION DATA AND REAL FUNCTIONALITY
+
+Provide clearly labeled sample listings to make the marketplace easy to explore.
+
+Example physical resource:
+
+Demo Mirrorless Camera
+
+- Example duration: 3 days.
+- Example rental fee: 0.05 testnet NEAR.
+- Example collateral: 0.20 testnet NEAR.
+
+Example digital resource:
+
+Demo Weather API
+
+- Example duration: 48 hours.
+- Example rental fee: 0.03 testnet NEAR.
+- Example collateral: 0.05 testnet NEAR.
+- Example quota: 20 API requests.
+
+Example AI instruction:
+
+"I need a digital API for my project for two days. My total budget is 0.15 NEAR. Find the best option."
+
+The numbers are demonstration values only and must not be represented as real market prices.
+
+Use seeded sample data where necessary, but clearly identify it as demo data.
+
+The physical borrowing workflow must be testable with a controlled demo agreement. The digital API workflow must actually issue and enforce temporary credentials.
+
+Do not pretend sample data represents real providers or real-world verification.
+
+---
+
+17. TESTING PLAN — REQUIRED BEFORE CLAIMING COMPLETION
+
+Write automated tests and provide a manual testing guide.
+
+A. Smart contract tests
+
+Test:
+
+- Booking creation with correct payment.
+- Incorrect payment rejection.
+- Booking acceptance.
+- Booking cancellation.
+- Expiry rules.
+- Handover confirmation.
+- Successful return.
+- Collateral refund accounting.
+- Rental fee settlement accounting.
+- Unauthorized calls rejected.
+- Duplicate completion rejected.
+- Dispute opening.
+- Dispute freeze.
+- Authorized dispute resolution.
+- Correct allocation of disputed funds.
+- Payout/withdrawal safety.
+- Invalid state transitions rejected.
+
+B. Digital access tests
+
+Verify:
+
+- Credential is issued only after an active booking is verified.
+- Valid credentials can call the demo API.
+- Invalid credentials fail.
+- Expired credentials fail.
+- Revoked credentials fail.
+- Usage quotas are enforced.
+- Credentials belonging to another borrower cannot be accessed.
+- Secrets do not appear in logs or public responses.
+
+C. Physical borrowing tests
+
+Verify:
+
+- A physical listing can be created.
+- Borrowing agreement can be created.
+- Both sides can confirm handover.
+- Evidence can be uploaded.
+- Both sides can confirm return.
+- A dispute can be opened.
+- Disputed collateral remains locked until resolution.
+
+D. AI agent tests
+
+Verify:
+
+- Agent extracts requested category, duration and budget.
+- Agent searches actual available listings.
+- Agent compares real fee and collateral information.
+- Agent refuses offers exceeding spending policies.
+- Agent prepares, but does not silently submit, a financial transaction.
+- Listing prompt injection cannot override security policies.
+- Agent reports tool errors truthfully.
+
+E. Frontend end-to-end tests
+
+Verify the complete journeys:
+
+1. Open marketplace.
+2. Connect testnet wallet.
+3. Create listing.
+4. Search and compare.
+5. Use AI agent.
+6. Prepare agreement.
+7. Approve and sign testnet transaction.
+8. Confirm booking.
+9. Complete physical or digital workflow.
+10. Verify settlement and history.
+
+Do not mark the project complete because the homepage renders.
+
+Run type checks, linting, automated tests and production builds.
+
+Fix actual errors before reporting completion.
+
+---
+
+18. TESTNET AND REAL-WORLD TESTING POLICY
+
+This is a hackathon prototype.
+
+Use NEAR testnet, test accounts and testnet tokens only.
+
+Testnet tokens are not real money.
+
+Do not ask the user to deposit real funds or use an expensive physical item.
+
+For physical workflow testing, use a low-value item owned by a consenting participant, or clearly label the physical handover as a simulated demonstration.
+
+For digital workflow testing, use the controlled demo API and temporary credentials implemented in this project.
+
+Do not use real customer API credentials, paid subscriptions or confidential datasets.
+
+Never deploy the escrow contract to mainnet as part of the hackathon MVP.
+
+---
+
+19. GITHUB REPOSITORY AND PROJECT DOCUMENTATION
+
+Create a clean, public-ready GitHub repository.
+
+Suggested structure:
+
+borrowbond/
+├── app/
+├── components/
+├── features/
+│   ├── marketplace/
+│   ├── borrowing/
+│   ├── physical/
+│   ├── digital/
+│   ├── ai-agent/
+│   ├── security/
+│   └── dashboard/
+├── lib/
+│   ├── near/
+│   ├── ai/
+│   ├── database/
+│   ├── validation/
+│   └── utils/
+├── api/
+├── contracts/
+│   └── borrowbond/
+├── supabase/
+│   ├── migrations/
+│   └── functions/
+├── tests/
+├── docs/
+├── public/
+├── .github/
+│   └── workflows/
+├── .env.example
+├── .gitignore
+├── README.md
+└── package.json
+
+Adapt the structure to the chosen framework instead of creating empty folders.
+
+README requirements
+
+Write an excellent README that includes:
+
+- Project name and tagline.
+- Problem.
+- Solution.
+- Features.
+- AI agent capabilities.
+- Physical and digital workflows.
+- NEAR architecture.
+- Smart contract explanation.
+- Screenshots.
+- Live demo link.
+- Testnet contract address, when actually deployed.
+- Tech stack.
+- Environment setup.
+- Installation instructions.
+- Development commands.
+- Testing instructions.
+- Deployment instructions.
+- Known limitations.
+- Security limitations.
+- Demo credentials or instructions where appropriate.
+
+Make instructions specific and reproducible. An independent judge should be able to follow "do X, see Y" steps and verify what works.
+
+Also create:
+
+- "docs/ARCHITECTURE.md"
+- "docs/TESTING.md"
+- "docs/DEMO_SCRIPT.md"
+- "docs/SECURITY.md"
+- ".env.example"
+- GitHub Actions CI workflow.
+
+The CI workflow should run the relevant frontend checks and smart contract tests.
+
+Never commit ".env", secrets, wallet private keys, service-role keys, real API credentials or database passwords.
+
+Check Git history for accidentally committed secrets before publishing.
+
+---
+
+20. DEPLOYMENT
+
+The GitHub repository must be public before the NEAR Hackathon deadline.
+
+Prepare the application for deployment using Vercel connected to GitHub, or another suitable deployment provider if technically necessary.
+
+The deployed website must use secure server-side environment variables for:
+
+- AI provider key.
+- Database URL and public configuration.
+- Server-only database service credentials, if applicable.
+- Any private backend configuration.
+
+Do not expose secrets using "NEXT_PUBLIC_" or another public frontend variable.
+
+Create an ".env.example" containing names and descriptions, never actual values.
+
+Document exactly where each environment variable belongs.
+
+Verify:
+
+- Production build succeeds.
+- Website loads over HTTPS.
+- Wallet connection works on the deployed URL.
+- Backend routes respond correctly.
+- Database access works.
+- AI agent works when configured.
+- Testnet contract can be reached.
+- Digital API gateway enforces expiration and limits.
+- Mobile layout works.
+- No secrets appear in frontend bundles or network responses.
+
+Do not claim successful deployment without visiting and testing the actual deployed URL.
+
+If deployment credentials are unavailable, prepare the configuration and give the user exact deployment steps.
+
+---
+
+21. NEAR HACKATHON SUBMISSION PREPARATION
+
+This project is being built for NEAR HACKATHON 2026.
+
+Use the following positioning:
+
+Primary track: Agent Economy.
+
+Additional applicable tracks: AI Security & Defense and Open Innovation.
+
+Do not claim that the application automatically qualifies for every track. Check the latest official track criteria.
+
+Before finalizing, read the current official rules and agent instructions at:
+
+"https://nearhackathon.com/"
+
+"https://nearhackathon.com/HACKATHON.md"
+
+The official submission process requires a public repository and a public X demo post. The demo post should state that BorrowBond was built for NEAR HACKATHON, tag "@NEARProtocol" and include "#NEARHackathon", with a demonstration video or screenshots.
+
+Prepare:
+
+1. Public GitHub repository.
+2. Live application URL.
+3. Working testnet demonstration.
+4. Professional README.
+5. Demo video script.
+6. Screenshot checklist.
+7. Draft X announcement.
+8. Concise hackathon project description.
+9. Submission checklist.
+
+Never submit the hackathon form or publish an X post without the user's explicit final approval.
+
+Use truthful descriptions. Do not claim production functionality that has not been demonstrated.
+
+The published repository and demo must be ready before the official deadline. Check the live website for the current exact deadline before submission.
+
+---
+
+22. DEMO VIDEO SCRIPT
+
+Prepare a short, clear demonstration that shows actual functionality:
+
+1. Introduce BorrowBond and the problem it solves.
+2. Show the physical and digital marketplace.
+3. Create or open a physical listing.
+4. Ask the BorrowBond AI agent to find a suitable resource.
+5. Show offer comparison and risk explanation.
+6. Prepare a borrowing agreement.
+7. Connect a NEAR testnet wallet and approve a real testnet transaction.
+8. Show the on-chain booking status.
+9. Demonstrate physical handover/return confirmation.
+10. Demonstrate digital API access with a temporary credential.
+11. Show the API working before expiry.
+12. Show access being denied after expiry or quota exhaustion.
+13. Show the settlement or dispute state.
+14. Finish by showing the public repository and architecture.
+
+The video must show actual operations, not just animations or pre-recorded fake transaction screens.
+
+---
+
+23. DEVELOPMENT EXECUTION RULES
+
+Follow this sequence:
+
+Phase 1 — Inspect and plan
+
+- Inspect the existing project directory.
+- Identify the available runtime, packages and tools.
+- Read official NEAR documentation and current hackathon instructions.
+- Choose the simplest technically sound implementation.
+- Identify missing credentials and external dependencies.
+- Write a short implementation plan.
+
+Phase 2 — Build the foundation
+
+- Create the application structure.
+- Establish the design system.
+- Build the responsive navigation, landing page and marketplace.
+- Implement shared components and form validation.
+
+Phase 3 — Implement the product workflows
+
+- Profiles and listings.
+- Physical borrowing.
+- Digital borrowing.
+- Dashboard.
+- Evidence and disputes.
+- Notifications and transaction history.
+
+Phase 4 — Implement the blockchain
+
+- Write the NEAR contract.
+- Write unit tests.
+- Build and deploy on testnet.
+- Integrate the wallet.
+- Verify transactions and state transitions.
+
+Phase 5 — Implement AI
+
+- AI Borrowing Agent.
+- Tool calling.
+- Search and offer comparison.
+- Risk and spending checks.
+- Human approval for transactions.
+
+Phase 6 — Implement digital access
+
+- Demo API provider.
+- Temporary token issuance.
+- Server-side validation.
+- Usage limits.
+- Expiration and revocation.
+
+Phase 7 — Test and secure
+
+- Run unit, integration and end-to-end tests.
+- Fix errors.
+- Validate access control.
+- Verify fund accounting.
+- Test mobile and desktop.
+
+Phase 8 — Publish
+
+- Write documentation.
+- Prepare GitHub repository.
+- Configure deployment.
+- Verify live application.
+- Prepare demo and X post.
+- Present submission checklist for approval.
+
+Strict working instructions
+
+- Do not stop after writing a plan. Begin implementation if you have repository and terminal access.
+- Work in small, testable stages.
+- Do not rewrite working modules unnecessarily.
+- Do not silently skip a feature.
+- If a feature cannot be implemented safely or within the available time, explain why and implement a clearly labeled, testable alternative.
+- Never present a mock feature as a completed live integration.
+- Never invent blockchain transactions, wallet balances, API results or user reviews.
+- Never hardcode secrets.
+- Do not create a fake AI agent that merely returns fixed text.
+- Make every visible button and form perform its advertised action.
+- Add accessible loading, success, empty and error states.
+- Keep the application usable on mobile screens.
+- Prefer a small working prototype over many unfinished features.
+- Maintain a clear list of completed, pending and blocked items.
+- After each phase, report files changed, commands run, test results and remaining issues.
+- If the environment does not allow direct repository modification or deployment, say so honestly and provide complete files and exact commands instead.
+- Do not claim that something works until you have executed the relevant test and inspected its result.
+
+---
+
+24. FINAL ACCEPTANCE CRITERIA
+
+BorrowBond is ready for hackathon submission only when the following are demonstrably true:
+
+- [ ] Professional responsive landing page and application.
+- [ ] Physical and digital marketplace categories.
+- [ ] Functional resource listings and details.
+- [ ] Borrower and lender workflows.
+- [ ] Real NEAR testnet wallet connection.
+- [ ] Deployed NEAR testnet escrow contract.
+- [ ] Actual testnet collateral transaction.
+- [ ] Correct contract state transitions.
+- [ ] AI agent searches actual listings and compares offers.
+- [ ] AI security checks enforce spending policies.
+- [ ] Human approval before financial transactions.
+- [ ] Physical handover, return and dispute workflow.
+- [ ] Working digital demo API.
+- [ ] Temporary digital credentials.
+- [ ] Server-side usage and expiration enforcement.
+- [ ] Correct collateral and rental-fee accounting.
+- [ ] Tests pass.
+- [ ] Production build succeeds.
+- [ ] No exposed secrets.
+- [ ] Public GitHub-ready repository.
+- [ ] Complete, reproducible README.
+- [ ] Deployed live application, where deployment access is available.
+- [ ] Demo video script and X post draft.
+- [ ] Known limitations clearly documented.
+
+Final instruction: Build BorrowBond as a credible NEAR-native product, not just a beautiful hackathon mockup. Quality, honest functionality, security, user experience and demonstrable agentic behavior matter more than the number of features.
