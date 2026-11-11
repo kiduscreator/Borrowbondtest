@@ -1,0 +1,953 @@
+BORROWBOND — COUNTRY-AWARE PHYSICAL MARKETPLACE, LOCATION DISPLAY & USER CONTACT SYSTEM
+
+ROLE
+
+Act as a senior product designer, UI/UX architect, full-stack developer, database engineer, and Web3 marketplace specialist.
+
+Your task is to introduce a complete country-aware physical borrowing and lending experience into the EXISTING BorrowBond application.
+
+Understand the concept carefully before implementation.
+
+This is an extension of the current application, not a replacement.
+
+Preserve all existing functionality, including:
+
+- Digital asset borrowing.
+- AI borrowing assistant.
+- NEAR wallet integration.
+- Smart contract escrow.
+- Rental fees and refundable collateral.
+- Listing creation.
+- Marketplace search.
+- Booking and settlement.
+- User dashboards.
+- Dispute management.
+- Notifications.
+- Existing design system.
+
+Do not remove, simplify, or unnecessarily alter existing features.
+
+The new functionality must integrate naturally with the existing architecture.
+
+1. CORE PRODUCT CONCEPT
+
+BorrowBond supports two types of resources:
+
+A. DIGITAL RESOURCES
+B. PHYSICAL RESOURCES
+
+Their borrowing requirements are different.
+
+A. DIGITAL RESOURCES
+
+Digital listings remain globally accessible.
+
+A borrower and lender can be located in completely different countries.
+
+Examples:
+
+- API access.
+- Developer services.
+- Digital tools.
+- Software resources.
+- Temporary digital credentials.
+- Other permitted digital assets.
+
+Rules:
+
+- No same-country requirement.
+- No physical pickup address required.
+- No physical location restriction.
+- Existing digital borrowing functionality remains unchanged.
+- Existing digital access and credential systems remain unchanged.
+
+Do not introduce country restrictions into digital borrowing.
+
+B. PHYSICAL RESOURCES
+
+Physical listings must follow a same-country borrowing policy.
+
+Examples:
+
+- Cameras.
+- Laptops.
+- Phones.
+- Photography equipment.
+- Tools.
+- Electronics.
+- Other physical goods.
+
+The borrower and lender MUST belong to the same country for a physical borrowing agreement.
+
+Example:
+
+Lender:
+Ethiopia 🇪🇹
+
+Borrower:
+Ethiopia 🇪🇹
+
+Result:
+Eligible for physical borrowing.
+
+Another example:
+
+Lender:
+Ethiopia 🇪🇹
+
+Borrower:
+Kenya 🇰🇪
+
+Result:
+Physical borrowing unavailable because the countries do not match.
+
+This restriction must be enforced in the frontend AND backend.
+
+A frontend-only restriction is not sufficient.
+
+The digital marketplace must remain unrestricted by this rule.
+
+2. COUNTRY AND REGION IN USER PROFILES
+
+Introduce proper country and regional information into user profiles.
+
+Every user should have a location profile.
+
+Required information:
+
+1. Country.
+2. Region, state, or province.
+3. City or locality.
+4. Preferred contact method.
+5. Contact phone number, where provided.
+6. Phone country calling code.
+
+Profile country selection
+
+Create a professional country selector.
+
+It should include:
+
+- Country flag.
+- Country name.
+- Searchable dropdown.
+- International country list.
+- Keyboard accessibility.
+- Selected-country display.
+
+Example:
+
+🇪🇹 Ethiopia
+
+Region:
+Oromia
+
+City:
+Adama
+
+The flag must represent the selected COUNTRY.
+
+Do not invent flags for individual regions unless an explicit regional flag feature is requested.
+
+The profile must show the country flag beside its full country name.
+
+Profile location design
+
+Create a premium profile location card.
+
+Illustrative design:
+
+┌──────────────────────────────────────┐
+│  LOCATION                            │
+│                                      │
+│  🇪🇹  Ethiopia                       │
+│       Oromia · Adama                 │
+│                                      │
+│  Preferred contact                   │
+│  WhatsApp                            │
+│                                      │
+│  Phone                               │
+│  +[country code] [masked number]      │
+│                                      │
+│  [Edit location and contact]         │
+└──────────────────────────────────────┘
+
+This is an illustrative layout. Follow the existing BorrowBond design system.
+
+Profile editing
+
+Users must be able to:
+
+- Change their country.
+- Select their region.
+- Enter their city.
+- Update their phone number.
+- Select their preferred phone country code.
+- Select their preferred contact method.
+- Choose contact visibility preferences.
+
+Region options should adapt to the selected country where a reliable dataset or existing service is available.
+
+If dynamic region data is unavailable, provide an appropriate searchable or validated manual region field.
+
+Do not invent region options.
+
+Do not use an IP address as the authoritative source of a user's country.
+
+The user's explicitly selected profile country should be used for eligibility checks.
+
+Do not label a country or phone number as independently verified unless a real verification process exists.
+
+3. PHYSICAL LISTING CREATION
+
+Modify the existing listing creation workflow.
+
+When a user chooses the asset category, introduce two clear options:
+
+┌──────────────────────┐
+│  DIGITAL             │
+│                      │
+│  API access,         │
+│  software, services  │
+│                      │
+│  Global availability │
+└──────────────────────┘
+
+┌──────────────────────┐
+│  PHYSICAL            │
+│                      │
+│  Equipment, cameras, │
+│  electronics, tools  │
+│                      │
+│  Same-country        │
+│  borrowing            │
+└──────────────────────┘
+
+The choices must be visually distinct and easy to understand.
+
+When DIGITAL is selected:
+
+- Preserve the existing digital listing workflow.
+- Do not require a physical pickup address.
+- Do not introduce same-country validation.
+
+When PHYSICAL is selected:
+
+- Display a new location information step.
+
+Physical listing location form
+
+Required information:
+
+1. Country.
+2. Region/state/province.
+3. City.
+4. Pickup address.
+5. Pickup instructions, where applicable.
+
+The selected listing country must match the lender's profile country.
+
+If they do not match, prevent publishing and explain the problem.
+
+Example validation:
+
+"Your physical listing must be located in the same country as your registered profile. Update your profile or listing location before publishing."
+
+Do not silently change the user's country.
+
+Address details
+
+The lender must provide the address where the physical item can be collected.
+
+Support structured address fields where possible:
+
+- Street or road.
+- Building or property name.
+- Neighborhood.
+- City.
+- Region.
+- Postal code, where applicable.
+- Country.
+
+Provide an address preview before publishing.
+
+If an existing mapping or address autocomplete provider is available, reuse it.
+
+Otherwise, use manual address input without introducing a new paid dependency.
+
+Address visibility options
+
+Provide two explicit options:
+
+1. Private pickup address.
+2. Public pickup address.
+
+Default: Private pickup address.
+
+Explain:
+
+"Your approximate location is visible to marketplace users. Your exact pickup address is shared after the booking is accepted."
+
+For public pickup addresses:
+
+"Choose this only when the address is a public collection point, registered business, or another location you are comfortable sharing publicly."
+
+Require explicit confirmation before publishing an exact public address.
+
+Do not expose a residential address without the user's explicit selection.
+
+4. MARKETPLACE LISTING CARDS
+
+Redesign physical listing cards to display country and location information.
+
+Every physical product card must display:
+
+- Product image.
+- Product title.
+- Category.
+- Rental price.
+- Refundable collateral.
+- Country flag.
+- Country name.
+- Region.
+- City or pickup area.
+- Provider information.
+- Availability.
+
+Example:
+
+┌──────────────────────────────────────┐
+│                                      │
+│             PRODUCT IMAGE            │
+│                                      │
+├──────────────────────────────────────┤
+│                                      │
+│  Canon EOS Camera                    │
+│  Photography                         │
+│                                      │
+│  🇪🇹 Ethiopia                         │
+│  Oromia · Adama                      │
+│                                      │
+│  5 NEAR / day                        │
+│  Refundable collateral: 20 NEAR      │
+│                                      │
+│  [View details]                      │
+└──────────────────────────────────────┘
+
+Use actual listing data.
+
+Do not hardcode sample countries, prices, names, or locations.
+
+The flag must be dynamically generated from the stored country code.
+
+Marketplace filters
+
+Introduce physical location filters:
+
+- Country.
+- Region.
+- City.
+
+For physical listings, default to the authenticated user's country.
+
+Do not display physical listings from incompatible countries in the eligible physical marketplace results.
+
+Digital listings must remain globally available.
+
+For a mixed marketplace:
+
+- Display digital listings globally.
+- Display physical listings only from the user's eligible country.
+- Preserve existing category and sorting controls.
+
+Explain the physical marketplace restriction with a subtle informative label:
+
+"Physical items available in your country."
+
+Do not make the experience unnecessarily restrictive or confusing.
+
+5. SAME-COUNTRY ELIGIBILITY ENGINE
+
+This is a core business rule.
+
+The system must compare canonical country codes, not country names or emoji flags.
+
+Use ISO 3166-1 alpha-2 country codes.
+
+For example:
+
+ET = Ethiopia
+KE = Kenya
+
+The exact country names and codes should come from a reliable country dataset.
+
+Required validation
+
+For physical listings:
+
+Borrower country = Lender profile country = Listing country.
+
+All three must match.
+
+Pseudocode:
+
+if (listing.type === "physical") {
+if (
+borrower.countryCode !== lender.countryCode ||
+listing.countryCode !== lender.countryCode
+) {
+rejectPhysicalBooking();
+}
+}
+
+if (listing.type === "digital") {
+preserveExistingGlobalBookingRules();
+}
+
+Use the existing project's language and architecture when implementing this logic.
+
+Enforcement locations
+
+Enforce the rule at:
+
+- Marketplace discovery.
+- Listing detail eligibility.
+- Booking request creation.
+- Lender booking acceptance.
+- Checkout.
+- Backend booking authorization.
+- Any other endpoint that can create or fund a physical booking.
+
+Never rely only on hidden buttons or frontend filtering.
+
+A malicious user must not be able to bypass the country restriction through a direct API request.
+
+Country change protection
+
+Prevent country changes from silently changing the meaning of an existing physical booking.
+
+Store immutable country snapshots for each booking.
+
+For active physical bookings, require the appropriate lifecycle rules before allowing changes that would affect the agreement.
+
+If a lender changes their country, existing listings must be reviewed and unpublished or updated until their location information is valid again.
+
+Do not invalidate previously completed bookings.
+
+6. CONTACT INFORMATION SYSTEM
+
+Introduce a professional contact information section.
+
+This system must work for both borrowers and lenders.
+
+Contact preferences
+
+Users should be able to select:
+
+- Phone call.
+- WhatsApp.
+- In-app messaging.
+- Email, if supported.
+
+Allow multiple preferred contact methods.
+
+International phone number input
+
+Use an international phone number input with:
+
+- Country flag.
+- Country calling code.
+- Number input.
+- Country search.
+- Correct formatting.
+- Country-aware validation.
+
+The default phone calling code should follow the selected phone-number country.
+
+However, allow users to select a different phone country code when their number belongs to another country.
+
+Validate numbers using a suitable international phone-number library, such as libphonenumber-js, if compatible with the current stack.
+
+Store normalized numbers in E.164 format.
+
+Do not assume that the phone country and profile country are always identical.
+
+Contact visibility
+
+Create three levels of contact access:
+
+BEFORE BOOKING:
+
+- Show preferred contact method.
+- Do not expose complete private phone numbers.
+- Allow an in-app contact or booking request where supported.
+
+AFTER BOOKING ACCEPTANCE:
+
+- Show the contact information that the other party has explicitly agreed to share.
+- Show phone and WhatsApp actions when applicable.
+- Make the contact information accessible only to the authenticated booking participants.
+
+AFTER BOOKING COMPLETION:
+
+- Preserve contact information according to the platform's retention and privacy rules.
+- Do not automatically expose it to unrelated users.
+
+The user must be able to control whether their phone number is shared with booking counterparties.
+
+Never make private contact numbers publicly accessible through listing APIs.
+
+7. PHYSICAL LISTING DETAIL PAGE
+
+Add a professional location and contact section to the physical product detail page.
+
+Example layout:
+
+┌──────────────────────────────────────┐
+│  LOCATION & PICKUP                   │
+│                                      │
+│  🇪🇹 Ethiopia                         │
+│  Oromia · Adama                      │
+│                                      │
+│  Pickup area                         │
+│  Adama central area                  │
+│                                      │
+│  Exact pickup address                │
+│  🔒 Shared after booking acceptance  │
+│                                      │
+│  Contact preferences                 │
+│  WhatsApp · Phone                    │
+│                                      │
+└──────────────────────────────────────┘
+
+For an explicitly public pickup address, display the public address with the appropriate public-location label.
+
+Otherwise, display the approximate location and privacy explanation.
+
+Do not reveal private addresses through page source, server responses, public metadata, search indexing, or image descriptions.
+
+Location map
+
+If map integration already exists, show an attractive location preview.
+
+If precise coordinates are stored:
+
+- Hide exact private coordinates before authorization.
+- Use approximate location for public previews.
+- Reveal precise location only when authorized.
+
+Do not install a paid map service without first checking existing infrastructure.
+
+If a map cannot be used, design an attractive location information card instead.
+
+8. CONTACT INTERFACE AFTER ACCEPTANCE
+
+After a physical borrowing request is accepted, provide an elegant contact card in the booking dashboard.
+
+Example:
+
+┌──────────────────────────────────────┐
+│  BOOKING CONTACT                     │
+│                                      │
+│  Lender                              │
+│  [Profile image] [Lender name]       │
+│  🇪🇹 Ethiopia · Oromia               │
+│                                      │
+│  Preferred contact                  │
+│  WhatsApp                            │
+│                                      │
+│  [Message] [Call] [WhatsApp]         │
+│                                      │
+│  Pickup address                      │
+│  [View authorized pickup details]    │
+│                                      │
+└──────────────────────────────────────┘
+
+The borrower's contact information should also be accessible to the lender after the borrower has agreed to share it.
+
+Use role-aware access.
+
+Only the borrower and lender associated with the accepted booking may retrieve private details.
+
+Do not rely on frontend visibility checks.
+
+9. COUNTRY MISMATCH EXPERIENCE
+
+Create polished, informative error states.
+
+If someone tries to borrow a physical product from another country:
+
+Display:
+
+"Not available in your country."
+
+"This physical item is currently listed in a different country. Borrower and lender must be in the same country for physical borrowing."
+
+Possible actions:
+
+- Explore eligible physical listings.
+- Explore digital resources.
+- Update profile location, if genuinely necessary and permitted.
+
+Use an elegant modal or inline message.
+
+Do not make the user feel that the platform is broken.
+
+Do not expose a misleading checkout action for an incompatible physical listing.
+
+10. PROFILE AND TRUST DESIGN
+
+Update the user profile interface.
+
+Show:
+
+- Profile image.
+- Display name.
+- Country flag.
+- Country name.
+- Region.
+- City, if provided.
+- Preferred contact methods.
+- Contact sharing preferences.
+
+Do not automatically expose a phone number publicly.
+
+Add helpful privacy settings.
+
+Example:
+
+LOCATION VISIBILITY
+
+- Country: Public.
+- Region: Public.
+- City: Public or optional.
+- Exact address: Private by default.
+
+CONTACT VISIBILITY
+
+- Preferred contact method: Public.
+- Phone number: Private by default.
+- Share with accepted booking counterparties: Enabled only with user consent.
+
+Use clear language and simple toggles.
+
+11. DATABASE AND BACKEND IMPLEMENTATION
+
+Inspect the existing schema before changing anything.
+
+Extend the existing tables rather than unnecessarily creating duplicate user or listing records.
+
+Potential profile fields:
+
+country_code
+country_name
+region_name
+city_name
+phone_number
+phone_country_code
+preferred_contact_methods
+contact_sharing_enabled
+
+Potential listing fields:
+
+asset_type
+country_code
+country_name
+region_name
+city_name
+pickup_address
+pickup_visibility
+pickup_instructions
+
+Potential booking snapshot fields:
+
+borrower_country_code
+lender_country_code
+listing_country_code
+contact_sharing_consent
+location_disclosed_at
+
+Adapt these fields to the existing database conventions.
+
+Store country codes in canonical format.
+
+Use appropriate constraints and indexes.
+
+Do not duplicate sensitive data unnecessarily.
+
+Implement database migrations safely.
+
+For Supabase:
+
+- Configure appropriate Row-Level Security.
+- Allow public users to access only public listing fields.
+- Allow profile owners to manage their private profile data.
+- Allow authorized booking participants to retrieve shared contact details.
+- Protect exact pickup addresses.
+- Prevent unauthorized contact disclosure.
+
+Do not expose service-role credentials.
+
+Never trust frontend-supplied borrower IDs or lender IDs for authorization.
+
+12. UI/UX DESIGN DIRECTION
+
+Make the new features look like they were originally part of BorrowBond.
+
+Retain the existing dark fintech identity.
+
+Use:
+
+- Existing BorrowBond green accent.
+- Refined dark surfaces.
+- Clear country flag presentation.
+- Beautiful location badges.
+- Elegant forms.
+- Modern dropdowns.
+- Subtle hover effects.
+- Clean typography.
+- Accessible labels.
+- Consistent spacing.
+
+Do not add unnecessary new visual styles.
+
+Recommended component ideas
+
+Create reusable components:
+
+CountrySelect
+CountryFlag
+CountryBadge
+RegionSelect
+LocationCard
+AddressForm
+AddressVisibilityControl
+InternationalPhoneInput
+ContactPreferenceSelector
+ContactPrivacySettings
+SameCountryIndicator
+CountryMismatchAlert
+PhysicalListingLocation
+BookingContactCard
+PrivateAddressNotice
+
+Use existing design-system components wherever possible.
+
+Recommended design references
+
+Study these for suitable interaction patterns:
+
+https://ui.shadcn.com/
+https://ui.aceternity.com/
+https://mobbin.com/
+https://dribbble.com/
+https://www.awwwards.com/
+https://lucide.dev/
+
+Do not use components simply because they look impressive.
+
+Prioritize usability and consistency.
+
+13. RESPONSIVE DESIGN
+
+All new components must work on mobile, tablet, and desktop.
+
+Pay special attention to:
+
+- Country dropdowns.
+- Region selection.
+- International phone input.
+- Physical listing forms.
+- Address previews.
+- Listing cards.
+- Contact cards.
+- Location information.
+- Country mismatch modals.
+
+Mobile users must be able to complete the entire workflow comfortably.
+
+Do not allow horizontal overflow.
+
+Ensure all touch controls are appropriately sized.
+
+14. ILLUSTRATIVE DESIGN SCREENS
+
+Create the following polished UI experiences.
+
+SCREEN A — PROFILE LOCATION
+
+A modern profile card with country flag, country, region, city, phone preferences, and editing action.
+
+SCREEN B — PHYSICAL LISTING CREATION
+
+A clean multi-step form that automatically introduces location fields when the user selects PHYSICAL.
+
+SCREEN C — MARKETPLACE CARD
+
+A product card with country flag, country name, region, and city beneath the product title.
+
+SCREEN D — PHYSICAL LISTING DETAILS
+
+A visually attractive location section, approximate pickup preview, privacy notice, and contact preferences.
+
+SCREEN E — COUNTRY MISMATCH
+
+A beautiful, informative empty/error state explaining that physical borrowing requires the same country.
+
+SCREEN F — CONTACT AFTER ACCEPTANCE
+
+A premium booking contact card containing the authorized counterparty's contact information and pickup instructions.
+
+SCREEN G — CONTACT SETTINGS
+
+An accessible privacy panel for preferred contact methods, phone country code, number sharing, and location visibility.
+
+Ensure all seven screens share the same visual language.
+
+15. FUNCTIONAL TESTING
+
+Verify all the following cases.
+
+TEST 1:
+Lender in Ethiopia creates a physical listing in Ethiopia.
+
+Expected: Successful publication.
+
+TEST 2:
+Borrower in Ethiopia attempts to borrow the Ethiopian physical listing.
+
+Expected: Eligible.
+
+TEST 3:
+Borrower in Kenya attempts to borrow the Ethiopian physical listing.
+
+Expected: Rejected at frontend and backend.
+
+TEST 4:
+Borrower in Kenya accesses a digital listing owned by someone in Ethiopia.
+
+Expected: Digital borrowing remains available under existing rules.
+
+TEST 5:
+Lender creates a physical listing with no country.
+
+Expected: Validation error.
+
+TEST 6:
+Lender tries to list a physical item in another country while their profile country remains unchanged.
+
+Expected: Listing publication blocked.
+
+TEST 7:
+A user tries to retrieve another user's private phone number.
+
+Expected: Unauthorized.
+
+TEST 8:
+A user who is not part of a booking tries to retrieve its pickup address.
+
+Expected: Unauthorized.
+
+TEST 9:
+A booking is accepted and both parties have authorized contact sharing.
+
+Expected: Appropriate contact information becomes available to the booking participants.
+
+TEST 10:
+A user attempts to change their country while they have an active physical booking.
+
+Expected: Existing booking country snapshots and agreements remain intact, and any restricted change follows the defined lifecycle rules.
+
+TEST 11:
+An older physical listing has no location information.
+
+Expected: Request its owner to complete the required location fields before making it eligible for new bookings.
+
+TEST 12:
+A lender publishes a public business pickup location.
+
+Expected: The explicitly approved public address is visible.
+
+TEST 13:
+A lender selects a private residential pickup address.
+
+Expected: Public users see only the approved approximate location; exact details remain protected.
+
+TEST 14:
+Phone number uses a country calling code different from the user's profile country.
+
+Expected: Correct number validation and formatting without changing the user's profile country.
+
+16. FINAL ACCEPTANCE CRITERIA
+
+[ ] Digital listings remain globally accessible.
+
+[ ] Physical listings require matching borrower and lender countries.
+
+[ ] Listing country must match lender profile country.
+
+[ ] Country is displayed on physical listing cards.
+
+[ ] Region and city are displayed where available.
+
+[ ] Country flag is generated dynamically.
+
+[ ] User profiles display country, region, and city.
+
+[ ] Physical listing creation includes address information.
+
+[ ] Pickup address has privacy controls.
+
+[ ] Public pickup addresses require explicit approval.
+
+[ ] Contact preferences are supported.
+
+[ ] International phone input works correctly.
+
+[ ] Contact details are private by default.
+
+[ ] Accepted booking participants can access authorized contact information.
+
+[ ] Country validation is enforced server-side.
+
+[ ] Existing digital functionality is preserved.
+
+[ ] Existing escrow and NEAR functionality remains intact.
+
+[ ] Supabase security policies protect private data.
+
+[ ] Responsive mobile design is complete.
+
+[ ] All major test cases pass.
+
+17. IMPLEMENTATION RULES
+
+1. Inspect the existing codebase first.
+2. Reuse existing components and infrastructure.
+3. Do not rebuild unrelated pages.
+4. Do not break existing API contracts without a migration strategy.
+5. Do not introduce fake country verification.
+6. Do not fabricate map data or addresses.
+7. Do not expose private user information through public APIs.
+8. Do not use frontend-only country enforcement.
+9. Do not simulate contact authorization.
+10. Do not claim a feature works unless it has been tested.
+
+Implement the complete feature, not just its appearance.
+
+At the end, provide:
+
+- Modified files.
+- Database migrations.
+- New reusable UI components.
+- Backend country validation.
+- Privacy and access-control changes.
+- Screenshots of the new screens.
+- Test results.
+- Any remaining implementation requirements.
+
+FINAL OBJECTIVE:
+
+Make BorrowBond a location-aware borrowing marketplace where physical resources are exchanged within the same country, digital resources remain globally accessible, users have clear location identities, and borrowers and lenders can safely coordinate through controlled contact information.
+
+The feature must feel native to BorrowBond, visually premium, technically reliable, and secure enough to support real users.

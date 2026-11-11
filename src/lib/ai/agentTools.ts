@@ -229,12 +229,14 @@ export function toolCompareOffers(
     }
 
     const provider = ctx.profiles[listing.ownerWallet];
+    const borrowerProfile = ctx.profiles[ctx.callerWallet];
     const sec = evaluateSpendingAndSecurityPolicy(
       listing,
       dur,
       ctx.policy,
       provider,
-      params.userBudgetNear
+      params.userBudgetNear,
+      borrowerProfile
     );
 
     const ratio = Math.max(1, dur) / Math.max(1, listing.exampleDuration);
@@ -324,12 +326,14 @@ export function toolCheckSpendingPolicy(
     return { success: false, error: 'Listing not found' };
   }
   const provider = ctx.profiles[listing.ownerWallet];
+  const borrowerProfile = ctx.profiles[ctx.callerWallet];
   const result = evaluateSpendingAndSecurityPolicy(
     listing,
     params.requestedDuration,
     ctx.policy,
     provider,
-    params.userBudgetNear
+    params.userBudgetNear,
+    borrowerProfile
   );
 
   logToolAction(
@@ -416,12 +420,14 @@ export function toolPrepareBooking(
   }
 
   const provider = ctx.profiles[listing.ownerWallet];
+  const borrowerProfile = ctx.profiles[ctx.callerWallet];
   const security = evaluateSpendingAndSecurityPolicy(
     listing,
     normalizedDur,
     ctx.policy,
     provider,
-    params.userBudgetNear
+    params.userBudgetNear,
+    borrowerProfile
   );
 
   if (!security.passed) {

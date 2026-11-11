@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   KeyRound,
   Play,
@@ -10,10 +10,23 @@ import {
   Award,
   Bell,
   AlertTriangle,
+  RotateCcw,
+  Search,
+  Calendar,
+  Filter,
+  X,
 } from 'lucide-react';
-import type { OnChainBooking } from '../lib/near/escrowStateMachine';
+import {
+  calculateLateDueDateInterest,
+  filterBookingsHistory,
+  type OnChainBooking,
+} from '../lib/near/escrowStateMachine';
 import type { MarketplaceListing, ProviderProfile } from '../lib/security/policyEngine';
 import type { DigitalCredentialRecord, DigitalUsageEvent } from '../lib/digital/accessGateway';
+import {
+  LocationCard,
+  CountryBadge,
+} from '../components/CountryLocationComponents';
 
 export interface EnrichedCredential extends DigitalCredentialRecord {
   authorizedRawToken?: string;
@@ -38,6 +51,7 @@ interface DashboardViewProps {
   onOpenListing: (listingId: string) => void;
   onWithdrawClaimable: () => Promise<void>;
   onRefreshState: () => Promise<void>;
+  onResetDemoState?: () => Promise<void>;
 }
 
 export const DashboardView: React.FC<DashboardViewProps> = ({
@@ -53,10 +67,16 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onOpenListing,
   onWithdrawClaimable,
   onRefreshState,
+  onResetDemoState,
 }) => {
   const [activeTab, setActiveTab] = useState<
     'BORROWINGS' | 'LENDINGS' | 'DIGITAL_ACCESS' | 'LISTINGS' | 'PASSPORT'
   >('BORROWINGS');
+
+  // Booking History Search & Filter state (item name, status, or date)
+  const [historySearchQuery, setHistorySearchQuery] = useState('');
+  const [historyStatusFilter, setHistoryStatusFilter] = useState('ALL');
+  const [historyDateFilter, setHistoryDateFilter] = useState('');
 
   // Interactive Controlled Demo Weather API Tester state
   const [selectedCity, setSelectedCity] = useState('Zurich');
@@ -66,10 +86,43 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const [apiResponseJson, setApiResponseJson] = useState<string | null>(null);
   const [apiLoading, setApiLoading] = useState(false);
   const [withdrawing, setWithdrawing] = useState(false);
+  const [resettingDemo, setResettingDemo] = useState(false);
 
-  const myBorrowings = bookings.filter((b) => b.borrower === connectedWallet);
-  const myLendings = bookings.filter((b) => b.lender === connectedWallet);
-  const myListings = listings.filter((l) => l.ownerWallet === connectedWallet);
+  const myBorrowings = useMemo(
+    () => bookings.filter((b) => b.borrower === connectedWallet),
+    [bookings, connectedWallet]
+  );
+  const myLendings = useMemo(
+    () => bookings.filter((b) => b.lender === connectedWallet),
+    [bookings, connectedWallet]
+  );
+  const myListings = useMemo(
+    () => listings.filter((l) => l.ownerWallet === connectedWallet),
+    [listings, connectedWallet]
+  );
+
+  const activeRoleBookings = activeTab === 'LENDINGS' ? myLendings : myBorrowings;
+
+  const filteredRoleBookings = useMemo(
+    () =>
+      filterBookingsHistory(activeRoleBookings, {
+        searchQuery: historySearchQuery,
+        statusFilter: historyStatusFilter,
+        dateFilter: historyDateFilter,
+      }),
+    [activeRoleBookings, historySearchQuery, historyStatusFilter, historyDateFilter]
+  );
+
+  const hasActiveHistoryFilters =
+    historySearchQuery.trim() !== '' ||
+    historyStatusFilter !== 'ALL' ||
+    historyDateFilter.trim() !== '';
+
+  const clearHistoryFilters = () => {
+    setHistorySearchQuery('');
+    setHistoryStatusFilter('ALL');
+    setHistoryDateFilter('');
+  };
 
   const lockedCollateralNear = myBorrowings
     .filter((b) => ['REQUESTED', 'ACCEPTED', 'ACTIVE', 'RETURN_REQUESTED', 'DISPUTED'].includes(b.status))
@@ -124,35 +177,59 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
     }
   };
 
+  const handleResetDemoClick = async () => {
+    if (!onResetDemoState) return;
+    setResettingDemo(true);
+    try {
+      await onResetDemoState();
+    } finally {
+      setResettingDemo(false);
+    }
+  };
+
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-8">
       {/* Header & KPI Metrics Row */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-800 pb-5">
-        <div>
-          <p className="text-xs text-[#5EEAD4]">NEAR Testnet Account Control Center</p>
-          <h1 className="text-3xl font-bold font-display text-[#F3F6FC] mt-0.5">
-            Borrower & Provider Dashboard
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#27312A] pb-5">
+        <div className="space-y-1">
+          <h1 className="text-2xl sm:text-3xl font-bold font-display text-[#F2F5F1]">
+            Dashboard
           </h1>
-          <p className="text-xs text-[#A4B0C4] mt-1">
-            Connected Wallet: <code className="font-mono text-[#F3F6FC]">{connectedWallet}</code> (Switch wallet in top bar to test Lender or Resolver roles)
+          <p className="text-xs sm:text-sm text-[#A0AAA2]">
+            Manage your active borrowings, lending agreements, digital credentials, and location settings for{' '}
+            <code className="font-mono text-[#F2F5F1]">{connectedWallet}</code>.
           </p>
         </div>
 
-        {myClaimableNear > 0 && (
-          <button
-            type="button"
-            disabled={withdrawing}
-            onClick={handleWithdraw}
-            className="px-4 py-2.5 text-xs font-semibold rounded-lg bg-[#34D399] text-[#0B1020] hover:bg-[#34D399]/90 transition-colors flex items-center gap-2 cursor-pointer"
-          >
-            <Wallet className="w-4 h-4" />
-            <span>
-              {withdrawing
-                ? 'Withdrawing...'
-                : `Withdraw Claimable Escrow (${myClaimableNear.toFixed(4)} NEAR)`}
-            </span>
-          </button>
-        )}
+        <div className="flex flex-wrap items-center gap-2.5">
+          {onResetDemoState && (
+            <button
+              type="button"
+              disabled={resettingDemo}
+              onClick={handleResetDemoClick}
+              className="btn-near-secondary px-3.5 py-2 text-xs"
+            >
+              <RotateCcw className={`w-3.5 h-3.5 text-[#8BD6A7] ${resettingDemo ? 'animate-spin' : ''}`} />
+              <span>{resettingDemo ? 'Resetting...' : 'Reset Demo Data'}</span>
+            </button>
+          )}
+
+          {myClaimableNear > 0 && (
+            <button
+              type="button"
+              disabled={withdrawing}
+              onClick={handleWithdraw}
+              className="btn-near-primary px-4 py-2 text-xs"
+            >
+              <Wallet className="w-4 h-4" />
+              <span>
+                {withdrawing
+                  ? 'Withdrawing...'
+                  : `Withdraw Claimable Escrow (${myClaimableNear.toFixed(4)} NEAR)`}
+              </span>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* 4-Column Metric Strip */}
@@ -170,7 +247,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <div className="text-2xl font-bold font-mono text-[#5EEAD4] tabular-nums">
             {lockedCollateralNear.toFixed(2)} NEAR
           </div>
-          <span className="text-[11px] text-[#A4B0C4]">Held in `borrowbond-escrow.testnet`</span>
+          <span className="text-[11px] text-[#A4B0C4]">Held in `borrowbondtest.testnet`</span>
         </div>
 
         <div className="bg-[#121B2C] border border-slate-800 rounded-xl p-5 space-y-1">
@@ -190,6 +267,16 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
       </div>
 
+      {/* Screen A & Screen G: User Profile Location, International Phone & Contact Privacy Card */}
+      <LocationCard
+        profile={profile}
+        walletAccountId={connectedWallet}
+        isOwnProfile={true}
+        onProfileUpdated={() => {
+          onRefreshState();
+        }}
+      />
+
       {/* Navigation Tabs */}
       <div className="flex flex-wrap items-center gap-2 border-b border-slate-800 pb-3">
         {[
@@ -203,10 +290,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             key={tab.id}
             type="button"
             onClick={() => setActiveTab(tab.id as typeof activeTab)}
-            className={`px-4 py-2 text-xs font-semibold rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+            className={`px-4 py-2 text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer glass-nav-pill ${
               activeTab === tab.id
-                ? 'bg-[#5EEAD4] text-[#0B1020]'
-                : 'bg-[#121B2C] text-[#A4B0C4] hover:text-[#F3F6FC]'
+                ? 'glass-nav-pill-active text-[#8BD6A7]'
+                : 'text-[#A0AAA2] hover:text-[#F2F5F1]'
             }`}
           >
             {tab.label}
@@ -214,23 +301,155 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         ))}
       </div>
 
-      {/* Tab 1 & 2: Borrowings or Lendings Table */}
+      {/* Tab 1 & 2: Borrowings or Lendings Table with Search & Filter Bar */}
       {(activeTab === 'BORROWINGS' || activeTab === 'LENDINGS') && (
         <div className="bg-[#121B2C] border border-slate-800 rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between">
-            <h2 className="text-sm font-bold font-display text-[#F3F6FC]">
-              {activeTab === 'BORROWINGS'
-                ? 'Borrowing Agreements & Escrow Status'
-                : 'Lending Agreements (Provider Queue)'}
-            </h2>
-            <span className="text-xs text-[#A4B0C4]">
-              Click any booking to inspect timeline, upload handover/return evidence, or resolve disputes
+          <div className="px-6 py-4 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 className="text-sm font-bold font-display text-[#F3F6FC]">
+                {activeTab === 'BORROWINGS'
+                  ? 'Borrowing Agreements & Escrow Status'
+                  : 'Lending Agreements (Provider Queue)'}
+              </h2>
+              <p className="text-xs text-[#A4B0C4] mt-0.5">
+                Click any booking to inspect timeline, upload handover/return evidence, or resolve disputes
+              </p>
+            </div>
+            <span className="text-xs font-mono text-[#5EEAD4]">
+              Showing {filteredRoleBookings.length} of {activeRoleBookings.length} agreements
             </span>
           </div>
 
-          {(activeTab === 'BORROWINGS' ? myBorrowings : myLendings).length === 0 ? (
+          {/* Search & Filter Bar by Item Name, Status, or Date */}
+          <div className="px-6 py-4 bg-[#0B1020]/70 border-b border-slate-800/80 space-y-3">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
+              {/* Search by Item Name, Status, or Date */}
+              <div className="md:col-span-6 relative">
+                <label htmlFor="dashboard-booking-search" className="sr-only">
+                  Search booking history by item name, status, or date
+                </label>
+                <Search className="w-4 h-4 text-[#5EEAD4] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  id="dashboard-booking-search"
+                  type="text"
+                  value={historySearchQuery}
+                  onChange={(e) => setHistorySearchQuery(e.target.value)}
+                  placeholder="Search by item name, status (e.g. ACTIVE, COMPLETED), date, or serial..."
+                  className="w-full pl-10 pr-8 py-2 text-xs bg-[#121B2C] border border-slate-700/80 rounded-lg text-[#F3F6FC] placeholder:text-[#A4B0C4]/70 focus:outline-none focus:border-[#00EC97]"
+                />
+                {historySearchQuery && (
+                  <button
+                    type="button"
+                    aria-label="Clear search query"
+                    onClick={() => setHistorySearchQuery('')}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#A4B0C4] hover:text-[#F3F6FC] cursor-pointer"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+
+              {/* Filter by Status Dropdown */}
+              <div className="md:col-span-3 relative">
+                <label htmlFor="dashboard-status-filter" className="sr-only">
+                  Filter by booking status
+                </label>
+                <Filter className="w-3.5 h-3.5 text-[#A4B0C4] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <select
+                  id="dashboard-status-filter"
+                  value={historyStatusFilter}
+                  onChange={(e) => setHistoryStatusFilter(e.target.value)}
+                  className="w-full pl-8 pr-3 py-2 text-xs bg-[#121B2C] border border-slate-700/80 rounded-lg text-[#F3F6FC] focus:outline-none focus:border-[#00EC97]"
+                >
+                  <option value="ALL">All Statuses</option>
+                  <option value="ACTIVE">ACTIVE</option>
+                  <option value="COMPLETED">COMPLETED</option>
+                  <option value="REQUESTED">REQUESTED</option>
+                  <option value="ACCEPTED">ACCEPTED</option>
+                  <option value="RETURN_REQUESTED">RETURN_REQUESTED</option>
+                  <option value="DISPUTED">DISPUTED</option>
+                  <option value="RESOLVED">RESOLVED</option>
+                  <option value="OVERDUE">OVERDUE (3% APY)</option>
+                </select>
+              </div>
+
+              {/* Filter by Date (YYYY-MM-DD or Month/Day) */}
+              <div className="md:col-span-3 relative">
+                <label htmlFor="dashboard-date-filter" className="sr-only">
+                  Filter by booking date
+                </label>
+                <Calendar className="w-3.5 h-3.5 text-[#A4B0C4] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  id="dashboard-date-filter"
+                  type="text"
+                  value={historyDateFilter}
+                  onChange={(e) => setHistoryDateFilter(e.target.value)}
+                  placeholder="Date (e.g. 2026-11 or Nov)"
+                  className="w-full pl-8 pr-3 py-2 text-xs bg-[#121B2C] border border-slate-700/80 rounded-lg text-[#F3F6FC] placeholder:text-[#A4B0C4]/70 focus:outline-none focus:border-[#00EC97]"
+                />
+              </div>
+            </div>
+
+            {/* Quick Status Filter Pills & Clear Action */}
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex flex-wrap items-center gap-1.5">
+                {(['ALL', 'ACTIVE', 'COMPLETED', 'REQUESTED', 'DISPUTED', 'OVERDUE'] as const).map(
+                  (st) => (
+                    <button
+                      key={st}
+                      type="button"
+                      onClick={() => setHistoryStatusFilter(st)}
+                      className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-colors cursor-pointer border ${
+                        historyStatusFilter === st
+                          ? 'bg-[#00EC97]/20 border-[#00EC97] text-[#00EC97] font-bold'
+                          : 'bg-[#121B2C] border-slate-800 text-[#A4B0C4] hover:text-[#F3F6FC]'
+                      }`}
+                    >
+                      {st === 'ALL' ? 'All' : st}
+                    </button>
+                  )
+                )}
+              </div>
+
+              {hasActiveHistoryFilters && (
+                <button
+                  type="button"
+                  onClick={clearHistoryFilters}
+                  className="text-xs text-[#00EC97] hover:underline inline-flex items-center gap-1 cursor-pointer"
+                >
+                  <X className="w-3.5 h-3.5" />
+                  <span>Clear History Filters</span>
+                </button>
+              )}
+            </div>
+          </div>
+
+          {activeRoleBookings.length === 0 ? (
             <div className="p-10 text-center text-xs text-[#A4B0C4]">
               No agreements found for <code className="font-mono text-[#F3F6FC]">{connectedWallet}</code> in this role. Tip: Use the top-right wallet switcher to switch between <code className="font-mono">alex-builder.testnet</code> (Borrower) and <code className="font-mono">optics-lab.testnet</code> (Lender).
+            </div>
+          ) : filteredRoleBookings.length === 0 ? (
+            <div className="p-10 text-center space-y-3 text-xs text-[#A4B0C4]">
+              <p>
+                No bookings matched your filter{' '}
+                {historySearchQuery && (
+                  <strong className="text-[#F3F6FC]">&ldquo;{historySearchQuery}&rdquo;</strong>
+                )}{' '}
+                {historyStatusFilter !== 'ALL' && (
+                  <span className="font-mono text-[#5EEAD4]">[{historyStatusFilter}]</span>
+                )}{' '}
+                {historyDateFilter && (
+                  <span className="font-mono text-[#00EC97]">({historyDateFilter})</span>
+                )}
+                .
+              </p>
+              <button
+                type="button"
+                onClick={clearHistoryFilters}
+                className="px-3.5 py-1.5 rounded-lg bg-[#172338] text-[#00EC97] border border-[#00EC97]/40 hover:bg-[#00EC97]/10 font-semibold cursor-pointer"
+              >
+                Reset Search &amp; Filters
+              </button>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -239,6 +458,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   <tr className="border-b border-slate-800 text-[#A4B0C4] bg-[#0B1020]/60">
                     <th className="py-3.5 px-4 font-medium">Booking ID</th>
                     <th className="py-3.5 px-4 font-medium">Resource</th>
+                    <th className="py-3.5 px-4 font-medium">Date &amp; Deadline</th>
                     <th className="py-3.5 px-4 font-medium">Counterparty</th>
                     <th className="py-3.5 px-4 font-medium text-right">Rental Fee</th>
                     <th className="py-3.5 px-4 font-medium text-right">Collateral</th>
@@ -247,14 +467,29 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800/70">
-                  {(activeTab === 'BORROWINGS' ? myBorrowings : myLendings).map((bk) => (
+                  {filteredRoleBookings.map((bk) => (
                     <tr key={bk.bookingId} className="hover:bg-[#172338]/60">
-                      <td className="py-3.5 px-4 font-mono text-[#F3F6FC]">{bk.bookingId}</td>
+                      <td className="py-3.5 px-4 font-mono text-[#F3F6FC]">
+                        <div>{bk.bookingId}</div>
+                        <span className="text-[10px] text-[#A4B0C4]">
+                          {bk.isSimulatedTx === false ? 'Verified Tx' : 'Simulated'}
+                        </span>
+                      </td>
                       <td className="py-3.5 px-4">
                         <div className="font-semibold text-[#F3F6FC]">{bk.listingTitle}</div>
                         <div className="text-[11px] text-[#A4B0C4]">
                           {bk.resourceType} · {bk.durationCount} {bk.durationUnit.toLowerCase()}
                         </div>
+                      </td>
+                      <td className="py-3.5 px-4 font-mono text-[11px] text-[#A4B0C4]">
+                        <div className="text-[#F3F6FC]">
+                          {bk.createdAtIso ? bk.createdAtIso.slice(0, 10) : '—'}
+                        </div>
+                        {bk.rentalEndIso && (
+                          <div className="text-[10px] text-[#A4B0C4]">
+                            Due: {bk.rentalEndIso.slice(0, 10)}
+                          </div>
+                        )}
                       </td>
                       <td className="py-3.5 px-4 font-mono text-[#A4B0C4]">
                         {activeTab === 'BORROWINGS' ? bk.lender : bk.borrower}
@@ -266,17 +501,48 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                         {bk.collateralNear} NEAR
                       </td>
                       <td className="py-3.5 px-4 font-mono font-semibold">
-                        <span
-                          className={
-                            bk.status === 'ACTIVE' || bk.status === 'COMPLETED'
-                              ? 'text-[#34D399]'
-                              : bk.status === 'DISPUTED'
-                              ? 'text-[#F87171]'
-                              : 'text-[#FBBF24]'
+                        {(() => {
+                          if (bk.status === 'ACTIVE' || bk.status === 'RETURN_REQUESTED') {
+                            const late = calculateLateDueDateInterest(bk);
+                            if (late.isOverdue) {
+                              return (
+                                <div className="space-y-0.5">
+                                  <span className="px-2 py-0.5 rounded bg-[#F87171]/20 border border-[#F87171]/60 text-[#F87171] text-[10px] font-bold inline-flex items-center gap-1 whitespace-nowrap animate-pulse">
+                                    <span>OVERDUE · 3% APY</span>
+                                  </span>
+                                  <div className="text-[10px] text-[#F87171] font-mono whitespace-nowrap">
+                                    +{late.accruedLateFeeNear} NEAR
+                                  </div>
+                                </div>
+                              );
+                            }
+                            if (late.urgencyLevel === 'DUE_SOON') {
+                              return (
+                                <span className="px-2 py-0.5 rounded bg-[#FBBF24]/20 border border-[#FBBF24]/60 text-[#FBBF24] text-[10px] font-bold inline-flex items-center gap-1 whitespace-nowrap">
+                                  <span>DUE SOON</span>
+                                </span>
+                              );
+                            }
+                            return (
+                              <span className="px-2 py-0.5 rounded bg-[#00EC97]/15 border border-[#00EC97]/40 text-[#00EC97] text-[10px] font-bold inline-block whitespace-nowrap">
+                                ACTIVE (ON SCHEDULE)
+                              </span>
+                            );
                           }
-                        >
-                          {bk.status}
-                        </span>
+                          return (
+                            <span
+                              className={`whitespace-nowrap ${
+                                bk.status === 'COMPLETED' || bk.status === 'RESOLVED'
+                                  ? 'text-[#34D399]'
+                                  : bk.status === 'DISPUTED'
+                                  ? 'text-[#F87171]'
+                                  : 'text-[#FBBF24]'
+                              }`}
+                            >
+                              {bk.status}
+                            </span>
+                          );
+                        })()}
                       </td>
                       <td className="py-3.5 px-4 text-right">
                         <button
@@ -521,8 +787,22 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   key={item.id}
                   className="p-4 rounded-xl bg-[#0B1020] border border-slate-800 flex items-center justify-between gap-4 text-xs"
                 >
-                  <div className="space-y-1">
-                    <span className="text-[#5EEAD4] font-semibold">{item.resourceType}</span>
+                  <div className="space-y-1.5">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-[#5EEAD4] font-semibold">{item.resourceType}</span>
+                      <CountryBadge
+                        countryCode={item.resourceType === 'PHYSICAL' ? item.countryCode : undefined}
+                        countryName={item.countryName}
+                        regionName={item.regionName}
+                        cityName={item.cityName}
+                        compact={true}
+                      />
+                      {item.locationReviewRequired && (
+                        <span className="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-400/40 text-amber-300 font-semibold text-[11px]">
+                          Paused: Country Changed — Location Review Required
+                        </span>
+                      )}
+                    </div>
                     <h3 className="text-sm font-bold text-[#F3F6FC]">{item.title}</h3>
                     <p className="text-[#A4B0C4] font-mono tabular-nums">
                       Fee: {item.rentalFeeNear} NEAR · Collateral: {item.collateralNear} NEAR

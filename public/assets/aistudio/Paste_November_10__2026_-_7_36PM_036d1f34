@@ -1,0 +1,720 @@
+BORROWBOND — COMPLETE REAL FUNCTIONALITY, NEAR ESCROW, AUTHENTICATION & PRODUCTION-INTEGRATION PROMPT
+
+Act as a senior full-stack Web3 engineer, NEAR Protocol Rust smart-contract developer, security engineer, Supabase architect, and product engineer.
+
+Your task is to turn the existing BorrowBond project into a genuinely functioning NEAR testnet borrowing and lending marketplace.
+
+This is an implementation and integration task, not a rebuild.
+
+1. NON-NEGOTIABLE RULES
+
+1. Inspect the entire existing repository before changing code.
+2. Preserve the existing architecture, features, components, routes, AI tools, dashboards, marketplace, digital gateway, physical/digital listing system, location rules, dispute screens, and documentation.
+3. Do not remove a system because it is currently simulated. Replace the simulation with a real implementation while preserving its user-facing purpose.
+4. Do not replace existing features with placeholders, fake data, or simplified mock versions.
+5. Do not redesign the website from scratch. Keep the latest clean, minimal BorrowBond visual direction. Focus on making existing screens functional and consistent.
+6. Never show a successful wallet connection, booking, payment, escrow lock, refund, or settlement unless the actual operation has been verified.
+7. Never trust a wallet address, role, approval flag, transaction hash, or booking status supplied only by the frontend.
+8. Use NEAR testnet only during this implementation. No mainnet transactions.
+9. Do not overwrite the previously deployed contract account until its existing state, bookings, and claimable balances have been inspected and a safe migration plan exists.
+10. Compile and test the Rust contract, frontend, backend, database migrations, and complete booking lifecycle before declaring the implementation complete.
+
+2. CURRENT CODEBASE GAPS TO FIX
+
+The repository already contains a NEAR Rust contract and a TypeScript escrow state machine, but the two are not connected to real wallet-signed contract calls.
+
+Fix the following existing issues:
+
+- "src/App.tsx" starts with a default authenticated demo user and a preset wallet. New visitors must not appear logged in.
+- "src/lib/database/seedData.ts" seeds demonstration listings and profiles. These must not appear as real marketplace content.
+- "server.ts" stores users, sessions, and application state in in-memory objects. This is not reliable persistent authentication or storage.
+- Booking creation and booking transitions currently use the TypeScript demo escrow ledger instead of real NEAR contract transactions.
+- "/api/bookings/create" trusts "borrowerWallet" and "explicitUserApproval" from the request body. A boolean is not proof of wallet authorization.
+- Accept, handover, return, dispute, resolve, and withdrawal endpoints trust wallet identifiers supplied by the client.
+- The app does not include the actual NEAR Wallet Selector integration.
+- The package does not include the Supabase JavaScript client, and actual Google OAuth is not implemented safely.
+- The Google authentication code contains a simulated account chooser and a hard-coded OAuth client secret fallback. Remove the fake flow and rotate the exposed Google client secret.
+- "queryNearAccountAndKeysLive" uses fabricated fallback balances, block data, and contract metadata. Remove fabricated values. If RPC is unavailable, show “Unable to verify” rather than invented account status.
+- Supabase tables have RLS enabled, but the migration does not define the required access policies.
+- The listing wizard includes a hard-coded iPhone 18 preset, sample product images, sample descriptions, preset prices, and automatic sample values.
+
+Audit these issues and fix the underlying implementations, not just their visual appearance.
+
+3. REMOVE ALL SAMPLE LISTING AND AUTO-INSERT CONTENT
+
+The live application must not create or display fake products or preset prices.
+
+In particular, remove:
+
+- The iPhone 18 preset and its one-click auto-fill button.
+- Its hard-coded product images and product descriptions.
+- Fake product serial numbers and specifications.
+- Preset rental prices and collateral amounts.
+- Automatic sample values when switching between PHYSICAL and DIGITAL.
+- iPhone 18 references in listing placeholders and marketplace search placeholders.
+- Hard-coded benchmark logic for iPhone 18 in the server price-estimation route.
+- Seeded demonstration listings from the normal production experience.
+- Default demo users, demo wallet connections, and fake booking records.
+
+New listing forms must start empty:
+
+- Product/resource name: empty.
+- Description: empty.
+- Rental price: empty.
+- Collateral: empty.
+- Product value: empty.
+- Images: empty until uploaded or selected by the user.
+- Serial/product identity: entered or committed by the actual listing owner.
+
+Keep the existing AI price-estimation capability only as an explicit, optional user action. It must not silently populate a listing. Display the suggested value, its source, and an Apply suggestion action. The user must decide whether to apply it.
+
+Do not invent a price when a real source cannot be found.
+
+For an empty marketplace, show a proper empty state instead of fake products.
+
+Keep all existing physical and digital listing functionality.
+
+4. REAL NEAR WALLET CONNECTION
+
+Implement the official NEAR Wallet Selector integration using its currently supported API and compatible wallet modules.
+
+Use the official documentation:
+https://github.com/near/wallet-selector
+
+Integrate the appropriate packages for:
+
+- Wallet Selector core.
+- Modal UI.
+- MyNearWallet.
+- Meteor Wallet.
+- HERE Wallet or other compatible supported wallets.
+- WalletConnect where properly configured.
+
+Do not create a fake wallet selector that accepts typed account IDs as proof of ownership.
+
+Required wallet behavior
+
+- Initialize the wallet selector once and manage its lifecycle correctly.
+- Display the actual connected wallet account ID.
+- Display the actual network.
+- Restore a valid connected wallet session where supported.
+- Handle connect, disconnect, account changes, wallet errors, rejected transactions, and network changes.
+- Do not show a default connected wallet.
+- Do not silently switch a user between testnet and mainnet.
+- Do not mark a wallet as verified merely because the user typed an account ID.
+- Verify account existence and actual contract state through NEAR RPC.
+- Show real balances only after successful RPC verification.
+
+All financial and booking actions must use actual wallet-signed NEAR transactions.
+
+Use "signAndSendTransaction" to call the deployed contract. The wallet must show the actual receiving contract account, method, attached deposit, and transaction details.
+
+After signing:
+
+1. Wait for the transaction result.
+2. Verify the final execution outcome.
+3. Verify the transaction was executed by the correct signer.
+4. Read the resulting booking state from the deployed contract.
+5. Only then update the interface to show success.
+
+A transaction hash supplied by the frontend is not sufficient proof of success.
+
+5. GOOGLE SIGN-UP AND LOGIN
+
+Implement proper Google authentication using Supabase Auth.
+
+Official documentation:
+https://supabase.com/docs/guides/auth/social-login/auth-google
+
+Use the supported OAuth flow:
+
+"supabase.auth.signInWithOAuth({ provider: 'google' })"
+
+Configure:
+
+- Google Cloud OAuth client.
+- Supabase Google provider.
+- Authorized application origin.
+- Supabase site URL.
+- Exact OAuth redirect URLs.
+- OAuth callback handling.
+- Session persistence.
+- Session refresh.
+- Sign-out.
+- Error and cancellation handling.
+
+Remove the custom simulated Google account chooser, fake identity fallback, query-parameter identity login, default account identity, and custom in-memory registration system.
+
+Use Supabase Auth for email/password authentication as well if the existing email login feature is retained. Do not keep the current in-memory password/session store as the real authentication system.
+
+Keep Google authentication separate from NEAR authentication
+
+A Google account authenticates a BorrowBond application user. It does not prove control of a NEAR wallet.
+
+The correct user experience:
+
+1. A user signs up or logs in with Google.
+2. BorrowBond creates or loads their persistent profile.
+3. The user can browse listings and manage their profile.
+4. To borrow or lend, the user connects a NEAR wallet.
+5. BorrowBond links the verified wallet to the authenticated profile.
+6. Financial actions require wallet signatures.
+
+Do not automatically assign a fake NEAR account to a Google user.
+
+6. SUPABASE PERSISTENCE AND ACCESS CONTROL
+
+Connect the existing Supabase project properly.
+
+Use Supabase as the persistent database for:
+
+- User profiles.
+- Auth-to-wallet mapping.
+- Listings and listing images.
+- Physical listing locations.
+- Booking metadata.
+- Evidence records.
+- Dispute documentation.
+- Notifications.
+- Reviews.
+- Digital credentials and usage metadata.
+- AI agent audit history.
+
+Keep the NEAR contract as the source of truth for financial escrow and on-chain booking transitions.
+
+Supabase must not independently invent or overwrite an on-chain settlement state.
+
+Database work
+
+Review and update the existing migration.
+
+Add an authenticated user ID linked to "auth.users", and allow a profile to exist before a NEAR wallet has been connected.
+
+Add the required wallet-linking and transaction-verification records.
+
+Create explicit RLS policies for every relevant table. Enabling RLS without policies is not sufficient.
+
+Rules:
+
+- Users can manage their own profile.
+- Users cannot edit another user's profile.
+- Listing owners can manage their own listings.
+- Public listing queries expose only public listing fields.
+- Only the borrower and lender can access their booking details.
+- Only authorized booking participants and reviewers can access private dispute evidence.
+- Private contact details and pickup addresses are not public.
+- Only the actual designated backend service can perform privileged operations.
+
+Never expose the Supabase service-role key or Google OAuth client secret in frontend code.
+
+Verify Supabase JWTs on server-protected endpoints.
+
+Never trust "callerWallet", "borrowerWallet", "lenderWallet", or a claimed role in the request body as proof of identity.
+
+7. REAL BORROWBOND ESCROW CONTRACT
+
+Use the existing "contracts/borrowbond/src/lib.rs" as the starting point.
+
+Also inspect the provided BorrowBond Escrow v2 reference contract. Reconcile it with the existing contract rather than blindly replacing the project.
+
+The contract must be the financial source of truth.
+
+Supported asset
+
+The current reference contract supports native NEAR only.
+
+Do not display USDT or another token as real escrow collateral unless a proper NEP-141 fungible-token escrow implementation has been built, tested, and configured with an actual token contract ID.
+
+A USD amount based on NEAR price is only an estimate. The actual amount locked on-chain must be denominated in yoctoNEAR.
+
+Use string-safe "U128" values at the JSON boundary. Never parse yoctoNEAR into ordinary JavaScript floating-point numbers.
+
+Booking creation
+
+The borrower selects:
+
+- Listing.
+- Rental start date and time.
+- Rental end date and time.
+- Duration.
+- Rental fee.
+- Collateral amount.
+- Applicable platform fee.
+- Relevant agreement terms.
+
+The user-selected time must be preserved. Store a canonical UTC timestamp on-chain and display the user's chosen local timezone in the interface.
+
+The frontend must calculate and display:
+
+- Rental fee.
+- Collateral.
+- Platform fee.
+- Total attached deposit.
+- Network.
+- Contract account.
+- Start date/time.
+- End date/time.
+
+The borrower reviews the agreement and signs a real NEAR transaction.
+
+The transaction calls "create_booking" and attaches the exact required amount:
+
+"attached deposit = rental fee + collateral"
+
+The contract must reject an incorrect attached amount.
+
+After a confirmed transaction, store the verified transaction hash and on-chain booking ID in Supabase.
+
+Lender acceptance
+
+The lender reviews the actual booking terms and signs "accept_booking" from the connected lender wallet.
+
+The contract must verify that the caller is the actual lender recorded in the booking.
+
+The request must expire if the acceptance deadline passes.
+
+The borrower must receive a full refund if the request is rejected, cancelled before acceptance, or expires before acceptance.
+
+No fee is charged on a booking that never becomes active.
+
+Immutable agreement
+
+The transaction must commit to the actual agreement terms:
+
+- Listing ID.
+- Borrower account.
+- Lender account.
+- Resource type.
+- Rental amount.
+- Collateral amount.
+- Platform fee rate.
+- Rental start and end.
+- Terms hash.
+- Product identity commitment.
+
+Once accepted, the booking terms must not be changed unilaterally.
+
+Once both parties confirm handover, the booking becomes active.
+
+Do not allow either party or the frontend to modify the locked booking amount, recipient, or deadline after the agreement is active.
+
+The wallet itself is not frozen. Only the funds deposited into this specific contract are controlled by the contract. Users must still be able to use their wallets for unrelated transactions.
+
+Handover
+
+Both parties must sign the handover confirmation:
+
+- Lender confirms handover.
+- Borrower confirms receipt.
+- When both confirmations are recorded, the agreement becomes ACTIVE.
+
+Add a safe expiry/refund path if the lender accepts but both parties never complete handover within the defined grace period.
+
+Return procedure
+
+At the agreed end date and time:
+
+1. The countdown reaches zero.
+2. The borrower returns the physical product or completes the applicable digital resource return/access procedure.
+3. The borrower signs "request_return".
+4. The lender inspects the returned item or verifies the digital resource has been returned/revoked as required.
+5. If the product/resource is returned correctly and there is no damage dispute, the lender signs the safe-return confirmation.
+6. The contract settles the booking.
+
+For a normal successful physical-product return:
+
+- Rental fee is credited to the lender.
+- Platform fee is credited to the fee treasury.
+- Remaining collateral is credited to the borrower.
+
+The platform fee is deducted from collateral, not confused with the rental fee.
+
+Do not automatically pay the lender the collateral when the return is successful.
+
+Deadline behavior
+
+Do not pretend that a smart contract automatically runs a countdown or executes itself when a deadline passes.
+
+NEAR contracts execute when a transaction invokes a method.
+
+Implement permissionless expiry/finalization methods and, where appropriate, a keeper service to submit the required transactions.
+
+The interface must distinguish:
+
+- Deadline reached.
+- Action available.
+- Transaction submitted.
+- Transaction confirmed.
+- Settlement finalized.
+
+Provide a safe 48-hour lender response window after the borrower requests return. If no dispute is opened and the lender does not respond within that window, allow a permissionless transaction to finalize the agreed no-damage refund.
+
+Make the grace period visible to both parties.
+
+8. PLATFORM FEE — MAXIMUM 1%
+
+Implement a transparent, configurable platform fee.
+
+The rate must never exceed 100 basis points (1%).
+
+The owner configures the fee rate and treasury account. The fee rate is snapshotted into each booking when that booking is created, so it cannot be secretly changed for an active booking.
+
+Formula:
+
+"platform_fee = collateral_amount × fee_bps ÷ 10,000"
+
+Where:
+
+"0 ≤ fee_bps ≤ 100"
+
+The fee is deducted from the collateral at final settlement and credited to the configured fee treasury account.
+
+Example:
+
+- Collateral: $100-equivalent.
+- Fee rate: 1%.
+- Maximum platform fee: $1-equivalent.
+- Remaining collateral before damage deduction: $99-equivalent.
+
+A $2 fee on $100 is 2%, not 1%. Do not label it as a 1% fee.
+
+For the current native-NEAR contract, calculate and transfer the fee in NEAR units. Display the approximate USD value separately and transparently.
+
+Do not charge the fee twice.
+
+Do not charge the fee when a pending booking is cancelled, rejected, or expires before activation.
+
+9. DAMAGE, DISPUTES, AND NEGOTIATION
+
+If the lender discovers damage, missing parts, or a product identity mismatch:
+
+1. The lender opens a dispute.
+2. The borrower can also open a dispute.
+3. The contract changes the booking to DISPUTED.
+4. Escrow remains locked.
+5. Neither party can withdraw the booking's locked funds.
+6. Both parties can submit evidence.
+7. The team reviews the evidence and facilitates negotiation.
+
+Evidence images, videos, invoices, messages, and private documents must be stored in private, authenticated storage. Store only evidence hashes or manifest hashes on-chain.
+
+Do not publish private addresses, contact information, or personal documents on the blockchain.
+
+Mutual negotiation
+
+Allow either party to propose a damage settlement amount.
+
+The proposal must include:
+
+- Exact damage amount.
+- Supporting evidence reference/hash.
+- Negotiation notes stored privately.
+- Proposed resolution hash.
+
+The counterparty must explicitly accept the exact proposal through their own wallet-signed transaction.
+
+Only after both parties agree can the contract settle the proposed split.
+
+Team arbitration
+
+If the parties cannot agree:
+
+- An authorized BorrowBond arbitration account reviews the evidence.
+- The designated arbiter signs the final resolution transaction.
+- The approved damage amount is recorded.
+- The settlement is finalized transparently on-chain.
+
+Use a multisig account for the designated arbitration role wherever possible. Do not give the ordinary application server arbitrary authority to move escrow.
+
+The arbiter must not be able to withdraw the entire escrow for itself.
+
+Damage settlement formula
+
+Let:
+
+- "C" = collateral.
+- "F" = platform fee.
+- "D" = mutually agreed or arbiter-approved damage deduction.
+- "R" = rental fee.
+
+Then:
+
+"Borrower refund = C - F - D"
+
+"Lender payout = R + D"
+
+"Treasury payout = F"
+
+Require:
+
+"0 ≤ D ≤ C - F"
+
+Reject any damage amount that exceeds the available collateral after the platform fee.
+
+The total payouts must always equal the originally escrowed rental fee plus collateral.
+
+After settlement, create claimable balances for the lender, borrower, and treasury. Each account withdraws its own balance through a wallet-signed transaction.
+
+Withdrawal safety
+
+Improve the current "withdraw_claimable" implementation.
+
+- Zero the caller's claimable balance before initiating a transfer.
+- Protect locked escrow and all other claimable balances.
+- Preserve the contract's required storage reserve.
+- Use a transfer callback.
+- If the transfer fails, restore the user's claimable balance.
+- Never allow one user's withdrawal to consume another user's collateral or claimable funds.
+
+10. PHYSICAL AND DIGITAL FEATURES MUST REMAIN DISTINCT
+
+Preserve the existing marketplace rules:
+
+- Physical listings are location-aware and subject to the same-country restriction already specified.
+- Digital listings remain globally accessible.
+- Physical listing details must use the existing country, region, city, and privacy-controlled address features.
+- Digital resources use their own access-control, quota, expiration, and revocation lifecycle.
+- Do not force a physical product-return workflow onto a digital API or credential.
+- Do not break existing AI agent, security policy, evidence, notification, review, or dashboard systems.
+
+11. FRONTEND AND USER EXPERIENCE
+
+Keep the new simplified design direction.
+
+Do not add excessive text or decorative UI.
+
+Improve the real transaction experience with clear states:
+
+- Wallet not connected.
+- Wrong network.
+- Ready to sign.
+- Waiting for wallet approval.
+- Transaction submitted.
+- Transaction confirmed.
+- Transaction failed.
+- Booking pending lender acceptance.
+- Booking accepted.
+- Handover waiting for both parties.
+- Active rental.
+- Return requested.
+- Dispute opened.
+- Negotiation proposed.
+- Awaiting counterparty approval.
+- Awaiting arbitration.
+- Settlement completed.
+- Claimable balance available.
+- Withdrawal submitted.
+- Withdrawal confirmed.
+
+Before a user signs, show a clear final confirmation panel with the exact amount, fee, recipient contract, rental dates, and agreement summary.
+
+Do not show fake transaction hashes, fake balances, fake contract status, or invented confirmations.
+
+Keep mobile layouts simple and readable.
+
+12. BACKEND AND EVENT SYNCHRONIZATION
+
+Replace simulated financial endpoints with real transaction verification and on-chain reads.
+
+The backend may:
+
+- Validate Supabase sessions.
+- Store profile and listing metadata.
+- Store private evidence and notifications.
+- Verify transaction hashes using NEAR RPC.
+- Read contract state.
+- Synchronize confirmed contract state into Supabase.
+- Maintain an auditable transaction timeline.
+
+The backend must not:
+
+- Pretend to sign a wallet transaction.
+- Create a booking merely because "explicitUserApproval" is "true".
+- Trust arbitrary wallet IDs from a request body.
+- Set a booking to ACTIVE without verified on-chain state.
+- Mark funds as released without verified settlement.
+- Override the contract's financial accounting.
+
+Use idempotent transaction processing. A repeated webhook, request, or transaction sync must not create duplicate bookings or duplicate payments.
+
+Remove the TypeScript escrow ledger as a financial source of truth. It may remain as an explicitly isolated local test/demo simulator, never as production escrow.
+
+13. ENVIRONMENT CONFIGURATION
+
+Centralize all configuration and remove hard-coded fallback account identities, client secrets, balances, RPC block data, and contract IDs.
+
+Use public frontend configuration only for values that are safe to expose, such as:
+
+- Supabase project URL.
+- Supabase publishable/anon key.
+- NEAR network ID.
+- NEAR RPC URL.
+- Public contract account ID.
+- Public WalletConnect project ID where required.
+
+Keep server-only secrets private:
+
+- Google OAuth client secret, if using a server-managed OAuth flow.
+- Supabase service-role key.
+- API gateway secrets.
+- Any private signing credentials used by a secure deployment pipeline.
+
+Do not place full-access NEAR private keys in frontend variables.
+
+Use one consistent contract account ID throughout the application, environment configuration, and database.
+
+14. CONTRACT DEPLOYMENT AND VERSIONING
+
+The existing contract has already been deployed to testnet.
+
+Before upgrading:
+
+1. Query the deployed contract account.
+2. Verify the code hash.
+3. Inspect existing bookings.
+4. Inspect total locked escrow.
+5. Inspect all claimable balances.
+6. Identify any funds that must be settled or migrated.
+7. Check storage compatibility.
+
+The new contract adds fields and changes its state layout. Do not overwrite the old deployment blindly.
+
+Prefer a new v2 testnet contract account unless a complete and tested state migration is implemented.
+
+Update the frontend and backend to use the new contract account only after the new contract is deployed, initialized, configured, and verified.
+
+Deliver a Termux-friendly deployment guide and a GitHub Actions build workflow so the Rust WASM can be compiled on Ubuntu if direct Android compilation is unreliable.
+
+Document:
+
+- Build command.
+- Test command.
+- WASM output path.
+- Testnet deployment.
+- Initialization arguments.
+- Fee treasury configuration.
+- Resolver configuration.
+- Contract verification.
+- Updating application environment variables.
+- Safe upgrade and migration procedures.
+
+15. REQUIRED TESTING
+
+Do not stop after making the buttons work.
+
+Authentication tests
+
+- Google signup.
+- Google login.
+- Existing user login.
+- OAuth cancellation.
+- Invalid callback.
+- Session persistence.
+- Session expiry.
+- Sign-out.
+- Profile creation.
+- Wallet linking.
+- Attempt to impersonate another wallet.
+
+Wallet tests
+
+- Connect.
+- Disconnect.
+- Reconnect.
+- Unsupported wallet.
+- Wrong network.
+- User rejects signature.
+- Transaction fails.
+- Transaction succeeds.
+- Actual account balance and contract code verification.
+
+Escrow tests
+
+- Create booking with exact deposit.
+- Reject incorrect attached amount.
+- Lender accepts.
+- Lender rejects.
+- Borrower cancels while pending.
+- Acceptance timeout.
+- Handover confirmed by only one party.
+- Handover confirmed by both.
+- Handover timeout refund.
+- Attempt to change terms after acceptance.
+- Attempt unauthorized booking action.
+- Return before deadline.
+- Return after deadline.
+- Lender confirms safe return.
+- No lender response after the grace period.
+- Open dispute.
+- Attempt withdrawal while disputed.
+- Damage proposal.
+- Counterparty accepts proposal.
+- Counterparty rejects or replaces proposal.
+- Arbiter resolves.
+- Damage exceeds available collateral.
+- Platform fee at 0%.
+- Platform fee at 1%.
+- Attempt to configure a fee above 1%.
+- Cancellation with no fee.
+- Borrower refund.
+- Lender payout.
+- Treasury payout.
+- Successful withdrawal.
+- Failed withdrawal and balance restoration.
+- Contract accounting invariant after every settlement.
+
+Database tests
+
+- RLS blocks unauthorized profile reads.
+- Users cannot modify other users' listings.
+- Booking evidence remains private.
+- Contact data is private.
+- On-chain state synchronization is idempotent.
+- No duplicate settlement or payment records.
+
+Final quality checks
+
+Run:
+
+- Frontend build.
+- TypeScript checks.
+- Existing application tests.
+- Rust contract checks.
+- Rust contract unit tests.
+- Contract testnet integration tests.
+- Authentication tests.
+- End-to-end user journeys.
+
+Deliver a clear report listing:
+
+1. What was implemented.
+2. What was already working and preserved.
+3. What was removed as fake/demo content.
+4. Contract account and network used.
+5. Build and test results.
+6. Any remaining limitations.
+7. Exact steps required from the project owner.
+
+FINAL ACCEPTANCE CRITERIA
+
+BorrowBond is not complete just because the pages look good or the wallet button changes to “Connected”.
+
+The project is complete only when:
+
+- Users can create real Google-authenticated accounts.
+- Users can connect real NEAR wallets.
+- Borrowers can sign transactions that lock actual testnet NEAR in the deployed contract.
+- Lenders can accept bookings with their own wallet signatures.
+- Booking terms and amounts cannot be unilaterally changed.
+- Both parties confirm handover.
+- Return confirmation works.
+- Damage disputes freeze escrow.
+- Both parties can negotiate a damage split.
+- The authorized arbiter can resolve unresolved disputes.
+- The contract correctly distributes rental fees, collateral, damages, and platform fees.
+- Users can withdraw their own claimable balances.
+- Failed transfers do not destroy claimable balances.
+- Supabase persists user and marketplace data securely.
+- No fake users, demo wallets, preset products, sample prices, or simulated financial confirmations appear in the normal application.
+
+Do not sacrifice existing BorrowBond features to achieve this. Make the existing product genuinely work, preserve its systems, and verify every important operation.

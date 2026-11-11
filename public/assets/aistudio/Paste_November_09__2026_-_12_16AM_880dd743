@@ -1,0 +1,1408 @@
+# BORROWBOND — ELITE PRODUCT REDESIGN, UI/UX OVERHAUL & FULL FUNCTIONALITY UPGRADE
+
+## ROLE
+
+Act as an elite multidisciplinary product team consisting of:
+
+- Award-winning Senior Product Designer
+- Principal UI/UX Designer
+- Senior Fintech Product Designer
+- Senior Web3 Product Designer
+- Staff Frontend Engineer
+- Senior Backend Engineer
+- Smart Contract Engineer specializing in NEAR Protocol
+- AI Agent Architect
+- Accessibility and Performance Engineer
+- Senior QA Engineer
+
+Your mission is to transform the EXISTING BorrowBond project into an exceptionally polished, professional, premium, production-minded Web3 marketplace.
+
+The finished product must look and feel like an established fintech/Web3 startup rather than a typical hackathon project.
+
+This is a complete product improvement task, not simply a landing-page redesign.
+
+You must improve the visual experience, usability, interactions, responsiveness, application architecture, and functional reliability.
+
+---
+
+# 1. MOST IMPORTANT RULE: INSPECT BEFORE MODIFYING
+
+First inspect the entire existing repository.
+
+Read and understand:
+
+- package.json
+- README.md
+- Existing source files
+- Frontend architecture
+- Backend architecture
+- API routes
+- Existing components
+- Styling system
+- Design tokens
+- State management
+- Authentication
+- Wallet integration
+- NEAR smart contracts
+- Supabase configuration and migrations
+- Environment variables
+- Existing AI agent implementation
+- Tests and CI workflows
+
+Understand how the current application works before making modifications.
+
+Do not blindly replace existing components.
+
+Do not delete working features just to simplify the redesign.
+
+Do not replace the entire project with a generic starter template.
+
+Preserve the existing working architecture wherever possible.
+
+Identify existing bugs, duplicated components, inconsistent styles, incomplete functionality, and technical debt.
+
+Create a detailed internal implementation plan before coding.
+
+Inspect the actual project dependencies and use compatible libraries. Do not assume that a Next.js-only component will work in an existing Vite application.
+
+IMPORTANT:
+The existing project is the source of truth. Do not invent integrations, successful transactions, user activity, reviews, listings, or blockchain confirmations.
+
+---
+
+# 2. PRODUCT IDENTITY
+
+Product name: BorrowBond
+
+Product category: Decentralized borrowing and lending marketplace.
+
+Blockchain ecosystem: NEAR Protocol.
+
+Core proposition:
+
+BorrowBond allows people to borrow and lend physical and digital resources through programmable escrow, transparent collateral management, AI-assisted discovery, and secure transaction workflows.
+
+The platform supports:
+
+1. Physical assets:
+   - Cameras
+   - Laptops
+   - Photography equipment
+   - Electronics
+   - Tools
+   - Vehicles, where legally and operationally supported
+   - Other reusable equipment
+
+2. Digital resources:
+   - API access
+   - Developer tools
+   - Digital services
+   - Licensed resources
+   - Temporary access credentials
+   - Other permitted digital resources
+
+3. AI-assisted borrowing:
+   - Natural-language discovery
+   - Listing comparison
+   - Borrowing recommendations
+   - Collateral estimation
+   - Spending policy enforcement
+   - Transaction preparation
+
+4. Programmable escrow:
+   - Rental fees
+   - Refundable collateral
+   - Handover confirmation
+   - Return verification
+   - Damage deductions
+   - Dispute handling
+   - Settlement
+
+The platform should communicate three values everywhere:
+
+TRUST. ACCESS. TRANSPARENCY.
+
+---
+
+# 3. VISUAL DIRECTION
+
+Create a distinctive visual language.
+
+The interface must be:
+
+- Premium
+- Minimal
+- Sophisticated
+- Modern
+- Technologically advanced
+- Trustworthy
+- Consistent
+- Visually memorable
+- Easy to navigate
+- Accessible
+
+## Design inspiration
+
+Study the design quality and interaction patterns of:
+
+- Linear: https://linear.app/
+- Stripe: https://stripe.com/
+- Vercel: https://vercel.com/
+- Ramp: https://ramp.com/
+- Mercury: https://mercury.com/
+- Revolut: https://www.revolut.com/
+- Coinbase: https://www.coinbase.com/
+- Wise: https://wise.com/
+- Mobbin: https://mobbin.com/
+- Awwwards: https://www.awwwards.com/
+
+Do not copy these websites.
+
+Study their:
+- Visual hierarchy
+- Typography
+- Layout
+- Spacing
+- Navigation
+- Information architecture
+- Component consistency
+- Micro-interactions
+- Responsive behavior
+- Trust-building techniques
+
+BorrowBond must maintain its own recognizable identity.
+
+## Color system
+
+Retain BorrowBond's recognizable dark fintech direction while refining it.
+
+Suggested palette:
+
+Primary background: #080B0A
+Secondary background: #0D1210
+Elevated surface: #111916
+Card surface: #131D18
+Subtle border: rgba(255,255,255,0.08)
+Primary green: #B5F36D
+Secondary green: #77DFA0
+Teal accent: #55D6C2
+Primary text: #F4F7F4
+Secondary text: #A1ADA5
+Muted text: #6E7A72
+Success: #42C98B
+Warning: #F3B95F
+Error: #EF7373
+
+These are starting points, not mandatory values. Test real contrast and readability.
+
+Avoid using green everywhere.
+
+Use the primary green for important actions, selected states, and meaningful highlights.
+
+Use semantic colors consistently for transaction states.
+
+## Typography
+
+Establish a professional typographic hierarchy.
+
+Recommended fonts:
+
+- Space Grotesk: headings and selected brand elements.
+- Inter or Geist: primary application interface.
+- JetBrains Mono: blockchain identifiers, transaction hashes, technical metadata.
+
+Use a restrained type scale.
+
+Suggested hierarchy:
+
+- Display: 52–68px desktop
+- H1: 40–48px
+- H2: 30–36px
+- H3: 22–26px
+- Body: 14–16px
+- Secondary text: 12–14px
+- Metadata: 11–12px
+
+Use responsive sizing.
+
+Never make every element large.
+
+Keep long descriptions readable.
+
+## Visual principles
+
+- Consistent spacing system.
+- Consistent border radius.
+- Consistent card elevations.
+- Thin, subtle borders.
+- Restrained shadows.
+- Strong alignment.
+- Generous whitespace.
+- Clear visual grouping.
+- Consistent icon sizes.
+- High-quality imagery.
+- Strong visual contrast.
+
+Do not turn every section into a glowing glass card.
+
+Use glassmorphism selectively.
+
+Avoid excessive gradients, animated borders, random blobs, unnecessary floating particles, and excessive rounded containers.
+
+The interface should feel expensive because of its craftsmanship, not because everything glows.
+
+---
+
+# 4. COMPLETE LANDING PAGE REDESIGN
+
+Redesign the landing page as a world-class fintech/Web3 product website.
+
+## A. Navigation
+
+Create a premium, responsive navigation system.
+
+Desktop:
+
+Left:
+- BorrowBond logo and wordmark.
+
+Center:
+- Explore
+- How it works
+- AI Agent
+- For lenders
+- About
+
+Right:
+- Search icon or search entry
+- Network status
+- Connect Wallet
+- User menu when authenticated
+
+Requirements:
+
+- Sticky navigation.
+- Subtle backdrop blur.
+- Smooth transitions.
+- Active navigation indication.
+- Dropdown menus where useful.
+- Mobile navigation drawer.
+- Clear keyboard accessibility.
+- No overlapping elements.
+
+The wallet button should show actual connection status.
+
+Never show a connected wallet when no real authenticated wallet session exists.
+
+## B. Hero section
+
+Build an exceptional hero section.
+
+Suggested headline:
+
+"Access More. Own Less."
+
+Supporting text:
+
+"Borrow the resources you need. Earn from the assets you own. Secure every agreement with programmable escrow."
+
+Primary CTA:
+"Explore Marketplace"
+
+Secondary CTA:
+"How BorrowBond Works"
+
+Include a visually compelling product demonstration.
+
+Use a high-quality, custom-designed interface composition showing:
+
+- A borrowing request.
+- Rental fee.
+- Refundable collateral.
+- Escrow protection.
+- AI-assisted recommendation.
+- NEAR transaction status.
+
+The composition should look like a real application interface, not an arbitrary collection of floating cards.
+
+Use a tasteful gradient or subtle grid as background.
+
+Do not overload the hero with animations.
+
+## C. Trust indicators
+
+Create a clean trust section.
+
+Possible indicators:
+
+- NEAR-powered escrow.
+- Transparent collateral.
+- AI-assisted discovery.
+- Verifiable transactions.
+
+Only display measurable numbers when they come from real data.
+
+Never invent user counts, transaction volumes, total value locked, lender numbers, or testimonials.
+
+## D. How it works
+
+Create a polished three- or four-step section:
+
+1. Discover a resource.
+2. Review the borrowing terms.
+3. Secure the agreement through escrow.
+4. Return the resource and complete settlement.
+
+Each step should have a clear visual explanation.
+
+## E. Marketplace preview
+
+Show actual listings from the application's data source.
+
+Include:
+
+- Product image.
+- Item title.
+- Category.
+- Daily rental price.
+- Collateral.
+- Location or access type.
+- Availability.
+- Verified provider status, only when verified.
+- View listing action.
+
+Create attractive listing cards with consistent image ratios.
+
+## F. AI Agent feature section
+
+Showcase BorrowBond's AI agent.
+
+Suggested headline:
+
+"Your borrowing assistant. Built into the marketplace."
+
+Explain:
+
+- Natural-language search.
+- Personalized comparisons.
+- Collateral estimation.
+- Spending limits.
+- Transaction preparation.
+- Human-controlled wallet approval.
+
+Show a realistic conversation preview.
+
+The AI must never claim to have executed an action that it only recommended or prepared.
+
+## G. Escrow section
+
+Explain the financial protection system.
+
+Show a clear visual breakdown:
+
+Rental fee
+Refundable collateral
+Total amount locked
+Potential damage deduction
+Refundable balance
+
+Make the difference between rental fees and collateral immediately understandable.
+
+## H. Physical and digital asset sections
+
+Visually differentiate:
+
+Physical assets:
+Real product imagery and availability information.
+
+Digital resources:
+Access duration, quotas, permitted use, and revocation status.
+
+Do not make both categories look identical if their workflows differ.
+
+## I. Final CTA and footer
+
+Create a strong final conversion section.
+
+Suggested headline:
+
+"Make better use of what the world already has."
+
+CTA:
+"Start Exploring"
+
+Footer:
+
+- Brand description
+- Marketplace
+- Borrowing guide
+- Lender guide
+- AI Agent
+- Documentation
+- Security
+- Terms
+- Privacy
+- GitHub
+- Social links
+
+Use actual valid destinations.
+
+---
+
+# 5. MARKETPLACE — MAJOR REDESIGN
+
+The marketplace is one of the most important product screens.
+
+It must feel like a premium rental marketplace.
+
+## Layout
+
+Desktop:
+- Search and filter controls.
+- Optional category sidebar.
+- Main listing grid.
+- Sorting controls.
+- Responsive listing cards.
+
+Mobile:
+- Compact search bar.
+- Horizontally scrollable categories.
+- Filter drawer.
+- Two-column cards where practical.
+- Single-column layout on narrow devices where necessary.
+
+## Search experience
+
+Implement:
+
+- Live search.
+- Search suggestions.
+- Search by listing name.
+- Category filtering.
+- Price range filtering.
+- Availability filtering.
+- Physical/digital filtering.
+- Location filtering where supported.
+- Sorting by price.
+- Sorting by relevance.
+- Sorting by newest.
+- Clear filters.
+
+All filters must actually affect displayed data.
+
+Include:
+- Loading skeletons.
+- Empty results.
+- Error states.
+- Clear-search action.
+
+## Listing cards
+
+Every card should display the information needed to make a decision.
+
+Include:
+
+- High-quality image.
+- Listing title.
+- Category badge.
+- Rental price.
+- Rental duration.
+- Collateral amount.
+- Provider information.
+- Availability.
+- Verification indicator, when verified.
+- Favorite action, if implemented.
+- Quick-view or details action.
+
+Hover:
+- Subtle image zoom.
+- Border transition.
+- Slight elevation.
+- Clear CTA.
+
+Do not make the entire card behave like multiple conflicting buttons.
+
+---
+
+# 6. LISTING DETAILS PAGE
+
+Create a premium item detail experience.
+
+Include:
+
+- Large image gallery.
+- Thumbnail navigation.
+- Item title.
+- Description.
+- Category.
+- Provider profile.
+- Rental price.
+- Collateral.
+- Availability calendar.
+- Rental duration selector.
+- Usage conditions.
+- Handover requirements.
+- Return requirements.
+- Damage policy.
+- Location or access details.
+- Reviews, only when backed by real records.
+
+Create a sticky booking summary on desktop.
+
+Mobile should have an accessible bottom booking CTA without covering important content.
+
+The rental price and refundable collateral must be visually separate.
+
+Clearly explain what the borrower pays and what can be refunded.
+
+---
+
+# 7. CHECKOUT AND ESCROW EXPERIENCE
+
+This screen must feel trustworthy and financially precise.
+
+Create a multi-step checkout flow.
+
+Step 1: Review listing.
+
+Step 2: Choose rental period.
+
+Step 3: Review payment breakdown.
+
+Step 4: Connect and authorize wallet.
+
+Step 5: Confirm actual transaction.
+
+Show:
+
+- Rental fee.
+- Refundable collateral.
+- Platform fee, if applicable.
+- Network fee, if available.
+- Total required amount.
+- Refund conditions.
+- Agreement summary.
+
+Add a clear escrow explanation.
+
+Include:
+
+- Transaction preparation state.
+- Wallet approval state.
+- Transaction submitted state.
+- Confirmation waiting state.
+- Confirmed state.
+- Failed state.
+- Rejected state.
+- Expired state.
+
+Never show a success screen before actual transaction confirmation.
+
+If demo mode is enabled, label it clearly as DEMO.
+
+Use exact token units and avoid misleading currency conversions.
+
+---
+
+# 8. DASHBOARD REDESIGN
+
+The dashboard should look like a premium financial application.
+
+Create a cohesive application shell.
+
+## Navigation
+
+Desktop:
+- Collapsible sidebar.
+- Main content.
+- Top utility bar.
+
+Mobile:
+- Compact navigation.
+- Bottom navigation or accessible drawer.
+- Responsive content sections.
+
+## Dashboard overview
+
+Show:
+
+- Active borrowings.
+- Active lending listings.
+- Pending requests.
+- Completed transactions.
+- Escrow balances.
+- Refundable collateral.
+- Upcoming returns.
+- Recent activity.
+
+All numbers must be calculated from real application records.
+
+Never use fabricated statistics.
+
+## Borrower dashboard
+
+Sections:
+
+- Active borrowings.
+- Pending requests.
+- Booking history.
+- Return deadlines.
+- Refund status.
+- Dispute history.
+
+## Lender dashboard
+
+Sections:
+
+- My listings.
+- Incoming requests.
+- Active rentals.
+- Earnings.
+- Collateral status.
+- Return confirmations.
+- Disputes.
+
+## Activity feed
+
+Create a chronological activity timeline.
+
+Use clear icons and semantic status indicators.
+
+## Data visualization
+
+Where useful, introduce:
+
+- Earnings chart.
+- Borrowing activity chart.
+- Transaction history.
+- Monthly overview.
+- Category breakdown.
+
+Use Recharts or an existing compatible chart library.
+
+Do not add charts that have no useful underlying data.
+
+---
+
+# 9. AI AGENT — PREMIUM EXPERIENCE
+
+The AI agent is a core differentiator.
+
+Create a professional AI workspace.
+
+## Interface
+
+Include:
+
+- Clean conversation layout.
+- Clear agent identity.
+- Suggested prompts.
+- Message timestamps.
+- Streaming responses if supported.
+- Loading indicator.
+- Error recovery.
+- Conversation history.
+- Clear conversation action.
+- Copy response.
+- Responsive mobile experience.
+
+## Suggested prompts
+
+Examples:
+
+"Find a camera under 10 NEAR per day."
+
+"Compare laptops available this week."
+
+"How much collateral would I need?"
+
+"Find digital resources with temporary access."
+
+"Explain the escrow terms of this listing."
+
+## Recommendation cards
+
+When the agent recommends a listing, show an interactive card containing:
+
+- Image.
+- Listing title.
+- Price.
+- Collateral.
+- Availability.
+- Why the agent recommends it.
+- View details.
+
+## AI safety
+
+The agent must:
+
+- Treat external listing descriptions as untrusted input.
+- Resist prompt injection.
+- Follow deterministic spending policies.
+- Respect user-defined spending limits.
+- Never sign a transaction autonomously.
+- Never claim a transaction has completed without verified evidence.
+- Require explicit user approval for financial actions.
+- Explain why an action is blocked.
+
+Show the transaction plan before asking the wallet to sign.
+
+---
+
+# 10. WALLET AND WEB3 EXPERIENCE
+
+Build a polished wallet experience.
+
+Include:
+
+- Connect wallet.
+- Disconnect wallet.
+- Account information.
+- Network status.
+- Account balance, when available.
+- Transaction history.
+- Transaction links to the appropriate explorer.
+- Clear network mismatch warnings.
+- Connection errors.
+- Reconnection handling.
+
+The wallet experience must be real, not cosmetic.
+
+Verify wallet signatures server-side wherever authentication is required.
+
+Never trust a wallet address supplied in an unauthenticated request body.
+
+Ensure the frontend, backend, and smart contract agree on the transaction's actual state.
+
+Use real NEAR transactions and verified receipts for production/testnet financial flows.
+
+---
+
+# 11. TRANSACTION TIMELINE
+
+Create an elegant, reusable transaction timeline.
+
+States:
+
+1. Request created.
+2. Lender accepted.
+3. Escrow funded.
+4. Handover confirmed.
+5. Rental active.
+6. Return initiated.
+7. Return verified.
+8. Settlement completed.
+
+Also support:
+
+- Request rejected.
+- Transaction failed.
+- Booking cancelled.
+- Dispute opened.
+- Dispute resolved.
+- Refund pending.
+- Refund completed.
+
+Each status must have:
+
+- Semantic color.
+- Icon.
+- Timestamp.
+- Explanation.
+- Relevant action.
+
+Never display impossible state transitions.
+
+The UI must reflect the actual backend or contract state.
+
+---
+
+# 12. DISPUTE MANAGEMENT
+
+Create a professional dispute interface.
+
+Include:
+
+- Dispute details.
+- Booking reference.
+- Involved parties.
+- Reason for dispute.
+- Evidence submission.
+- Image/document upload where supported.
+- Timeline.
+- Resolution status.
+- Authorized resolution actions.
+
+Include clear warnings about irreversible financial operations.
+
+Only authorized users should see or perform privileged actions.
+
+---
+
+# 13. LISTING CREATION EXPERIENCE
+
+Make creating a listing easy.
+
+Use a multi-step wizard.
+
+Step 1: Choose asset type.
+
+Step 2: Upload images or digital-resource information.
+
+Step 3: Add title and description.
+
+Step 4: Set rental pricing.
+
+Step 5: Set refundable collateral.
+
+Step 6: Set availability.
+
+Step 7: Define usage and return conditions.
+
+Step 8: Review and publish.
+
+Include:
+
+- Progress indicator.
+- Form validation.
+- Image preview.
+- Drag-and-drop upload.
+- Draft saving if persistence exists.
+- Helpful field explanations.
+- Mobile-friendly inputs.
+
+Differentiate physical and digital listing requirements.
+
+---
+
+# 14. DESIGN SYSTEM AND COMPONENT LIBRARY
+
+Create or improve a centralized design system.
+
+Audit all existing components first.
+
+Establish reusable components for:
+
+- Buttons.
+- Inputs.
+- Selects.
+- Search bars.
+- Cards.
+- Listing cards.
+- Modals.
+- Drawers.
+- Tooltips.
+- Dropdowns.
+- Tabs.
+- Badges.
+- Status indicators.
+- Alerts.
+- Toasts.
+- Skeletons.
+- Empty states.
+- Error states.
+- Pagination.
+- Tables.
+- Charts.
+- Timelines.
+- Wallet controls.
+
+Use design tokens for:
+
+- Colors.
+- Typography.
+- Spacing.
+- Border radii.
+- Shadows.
+- Transitions.
+- Z-index.
+- Breakpoints.
+
+Avoid inconsistent one-off styling.
+
+## Recommended component resources
+
+Study and selectively use:
+
+https://ui.shadcn.com/
+
+https://ui.aceternity.com/
+
+https://magicui.design/
+
+https://www.reactbits.dev/
+
+https://21st.dev/
+
+https://motion.dev/
+
+https://lucide.dev/
+
+https://www.tremor.so/
+
+Important:
+Use shadcn/ui as the foundation where compatible.
+
+Use Aceternity and Magic UI selectively for visual highlights.
+
+Use Motion for purposeful transitions.
+
+Use Lucide consistently for icons.
+
+Do not introduce unnecessary dependencies.
+
+Check licenses and component compatibility before installing.
+
+---
+
+# 15. PREMIUM MICRO-INTERACTIONS
+
+Make the experience feel alive without making it distracting.
+
+Implement:
+
+- Smooth navigation transitions.
+- Subtle button hover states.
+- Press feedback.
+- Dropdown transitions.
+- Modal entrance and exit.
+- Card hover feedback.
+- Loading skeleton animations.
+- Toast notifications.
+- Progress indicators.
+- Tab transitions.
+- Smooth accordion expansion.
+- Copy-to-clipboard feedback.
+- Search interaction.
+- Image gallery transitions.
+- Wallet connection feedback.
+- Transaction progress animations.
+
+Suggested timing:
+
+- Small interaction: 120–180ms.
+- Standard transition: 180–250ms.
+- Larger layout transition: 250–350ms.
+
+Use natural easing.
+
+Respect prefers-reduced-motion.
+
+Avoid:
+- Infinite animations everywhere.
+- Excessive parallax.
+- Distracting cursor effects.
+- Long intro animations.
+- Heavy 3D backgrounds.
+- Animations that delay access to content.
+
+Every animation should communicate an interaction or state change.
+
+---
+
+# 16. RESPONSIVE DESIGN
+
+Mobile is not an afterthought.
+
+The application must work exceptionally well on:
+
+- 320px narrow phones.
+- 360px phones.
+- 390px phones.
+- 430px phones.
+- Tablets.
+- Small laptops.
+- Desktop monitors.
+- Large displays.
+
+Test the real layouts.
+
+Check:
+
+- Navigation.
+- Marketplace.
+- Listing details.
+- Search.
+- Filters.
+- Checkout.
+- Wallet connection.
+- AI conversation.
+- Dashboard.
+- Tables.
+- Charts.
+- Forms.
+- Modals.
+- Notifications.
+
+No horizontal overflow.
+
+No clipped content.
+
+No tiny touch targets.
+
+No inaccessible dropdowns.
+
+No buttons hidden below sticky elements.
+
+Ensure important actions are easy to reach on mobile.
+
+---
+
+# 17. ACCESSIBILITY
+
+Target WCAG 2.2 AA.
+
+Implement:
+
+- Semantic HTML.
+- Keyboard navigation.
+- Visible focus indicators.
+- Accessible labels.
+- Accessible dialog behavior.
+- Proper heading hierarchy.
+- Sufficient color contrast.
+- Alternative text.
+- Screen-reader-friendly status updates.
+- Reduced-motion support.
+- Form error announcements.
+- Accessible tooltips.
+
+Do not communicate transaction states using color alone.
+
+Ensure interactive elements are usable without a mouse.
+
+---
+
+# 18. PERFORMANCE AND TECHNICAL QUALITY
+
+The interface must be fast.
+
+Optimize:
+
+- Images.
+- Font loading.
+- Bundle size.
+- Route loading.
+- Component rendering.
+- API requests.
+- Caching where appropriate.
+- Expensive animations.
+- Unnecessary re-renders.
+
+Use lazy loading for appropriate assets.
+
+Use image dimensions to prevent layout shifts.
+
+Avoid large background videos and unnecessarily heavy WebGL effects.
+
+Target:
+
+- Lighthouse Performance: 90+.
+- Accessibility: 95+.
+- Best Practices: 95+.
+- SEO: 90+.
+
+These are goals to measure, not scores to fabricate.
+
+Test real mobile performance.
+
+---
+
+# 19. SECURITY AND BACKEND INTEGRITY
+
+Do not let a visual redesign compromise the financial architecture.
+
+Audit:
+
+- Authentication.
+- Wallet signatures.
+- Session handling.
+- API authorization.
+- Request validation.
+- Input sanitization.
+- Rate limiting.
+- Supabase access policies.
+- Row-Level Security.
+- Database persistence.
+- Transaction verification.
+- Smart contract state.
+- Credential ownership.
+- Dispute permissions.
+
+Do not trust frontend booleans for authorization.
+
+Do not trust user-supplied transaction states.
+
+Do not accept arbitrary wallet identities as authenticated identities.
+
+Do not expose private keys or service-role secrets.
+
+Do not commit environment secrets.
+
+Ensure the deployed NEAR contract is the financial source of truth.
+
+If an integration is incomplete, report it honestly rather than simulating production behavior.
+
+---
+
+# 20. TRUST AND TRANSPARENCY
+
+A financial marketplace must make users feel safe.
+
+Introduce:
+
+- Clear fee breakdowns.
+- Clear collateral explanations.
+- Transparent refund rules.
+- Provider identity and verification states.
+- Transaction references.
+- Escrow lifecycle.
+- Security information.
+- Privacy information.
+- Dispute process explanation.
+- Network status.
+
+Use precise language.
+
+Never use labels such as "Verified", "Protected", "Secured", or "Completed" unless their meaning is supported by actual implementation.
+
+---
+
+# 21. CONTENT AND BRAND VOICE
+
+Use professional, concise product writing.
+
+Avoid generic AI-generated marketing language.
+
+Avoid meaningless claims such as:
+
+"Revolutionizing the future of everything."
+
+Prefer concrete statements.
+
+Examples:
+
+"Borrow equipment without purchasing it."
+
+"Earn from resources that would otherwise sit unused."
+
+"Know exactly how your collateral is handled."
+
+"Review every borrowing condition before signing."
+
+"AI can prepare your borrowing plan. You stay in control of your wallet."
+
+Every page should explain its purpose clearly.
+
+---
+
+# 22. VISUAL QUALITY CONTROL
+
+Before finishing, compare the result against professional product references.
+
+Review:
+
+- Typography consistency.
+- Spacing.
+- Alignment.
+- Color hierarchy.
+- Image quality.
+- Card consistency.
+- Form quality.
+- Navigation behavior.
+- Hover behavior.
+- Mobile layouts.
+- Empty states.
+- Error states.
+- Loading states.
+- Success states.
+
+Look for:
+- Generic template appearance.
+- Excessive glassmorphism.
+- Overuse of gradients.
+- Weak hierarchy.
+- Too many card containers.
+- Random icon styles.
+- Inconsistent border radii.
+- Unnecessary whitespace.
+- Dense information.
+- Weak mobile layouts.
+
+Fix every significant inconsistency.
+
+---
+
+# 23. IMPLEMENTATION PROCESS
+
+Work in the following phases.
+
+## PHASE 1 — Repository audit
+
+Inspect the entire project.
+
+Document:
+- Existing architecture.
+- Existing working features.
+- Incomplete features.
+- Critical bugs.
+- Design inconsistencies.
+- Technical risks.
+
+Do not modify financial logic before understanding it.
+
+## PHASE 2 — Design system
+
+Establish:
+- Brand tokens.
+- Typography.
+- Colors.
+- Spacing.
+- Components.
+- Responsive rules.
+- Interaction standards.
+
+## PHASE 3 — Landing page
+
+Implement the complete premium landing page.
+
+## PHASE 4 — Core application
+
+Upgrade:
+- Marketplace.
+- Listing details.
+- Listing creation.
+- Checkout.
+- Dashboard.
+- AI workspace.
+
+## PHASE 5 — Web3 workflows
+
+Improve:
+- Wallet connection.
+- Authentication.
+- Escrow states.
+- Transaction confirmation.
+- Transaction history.
+- Disputes.
+
+## PHASE 6 — Responsive and accessibility
+
+Test every major screen on mobile, tablet, and desktop.
+
+## PHASE 7 — Functional verification
+
+Test every button, form, filter, menu, modal, action, route, and transaction state.
+
+## PHASE 8 — Final polish
+
+Run the complete test suite.
+
+Fix:
+- TypeScript errors.
+- Build errors.
+- Console errors.
+- Broken imports.
+- Broken links.
+- Layout overflow.
+- Accessibility failures.
+- Mobile interaction issues.
+
+Do not stop after the first successful build.
+
+---
+
+# 24. ACCEPTANCE CRITERIA
+
+The work is complete only when:
+
+[ ] The original product identity is preserved and improved.
+
+[ ] Every major screen has a consistent design language.
+
+[ ] Landing page looks professionally designed.
+
+[ ] Marketplace search and filters work.
+
+[ ] Listing details are complete.
+
+[ ] Listing creation is usable.
+
+[ ] Checkout clearly explains fees and collateral.
+
+[ ] Wallet state is genuine.
+
+[ ] Transaction states are accurate.
+
+[ ] Dashboard data comes from real records.
+
+[ ] AI recommendations are clearly distinguished from actions.
+
+[ ] Financial operations require verified authorization.
+
+[ ] Physical and digital resource workflows are differentiated.
+
+[ ] Mobile layouts work properly.
+
+[ ] Keyboard accessibility works.
+
+[ ] Empty, loading, error, and success states exist.
+
+[ ] No misleading demo transactions appear as real transactions.
+
+[ ] No fabricated statistics or testimonials exist.
+
+[ ] No critical security findings remain unaddressed.
+
+[ ] The project builds successfully.
+
+[ ] Automated tests pass.
+
+[ ] Documentation accurately describes the final implementation.
+
+---
+
+# 25. FINAL DELIVERABLES
+
+When finished, provide:
+
+1. Summary of the redesign.
+2. List of modified files.
+3. New components and dependencies.
+4. Screens and workflows upgraded.
+5. Features that are fully functional.
+6. Features that remain simulated or incomplete.
+7. Security improvements.
+8. Mobile responsiveness results.
+9. Build and test results.
+10. Screenshots of the finished major screens.
+11. Remaining issues and recommendations.
+
+Do not merely explain what you would do.
+
+Actually inspect, implement, test, and improve the existing repository.
+
+Do not claim success without verification.
+
+If a task is blocked by missing API credentials, network access, external services, or unsupported infrastructure, explain exactly what is missing and continue with everything else that can be completed.
+
+# FINAL PRODUCT STANDARD
+
+BorrowBond must feel like a product that could confidently be presented to:
+
+- NEAR ecosystem developers.
+- Web3 investors.
+- Startup founders.
+- Product designers.
+- Fintech professionals.
+- Real borrowers and lenders.
+
+The final result should be visually distinctive, technically credible, intuitive, accessible, responsive, and trustworthy.
+
+Prioritize quality over quantity.
+
+Do not add features just to make the interface look busy.
+
+Make every screen, every component, every interaction, and every financial workflow feel intentional.
+
+**Build BorrowBond as if it were about to launch to real users.**

@@ -1,0 +1,45 @@
+name: Build & Verify BorrowBond NEAR Smart Contract
+
+on:
+  push:
+    paths:
+      - 'contracts/borrowbond/**'
+      - '.github/workflows/build-near-contract.yml'
+  workflow_dispatch:
+
+jobs:
+  build-and-test-wasm:
+    name: Rust Unit Tests & WASM Build (wasm32-unknown-unknown)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: contracts/borrowbond
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust 1.81 toolchain & wasm32 target
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.81.0
+          targets: wasm32-unknown-unknown
+
+      - name: Run BorrowBond smart contract unit & invariant tests
+        run: cargo test --verbose
+
+      - name: Compile release WASM binary
+        run: |
+          RUSTFLAGS='-C link-arg=-s' cargo build --target wasm32-unknown-unknown --release
+          ls -lh target/wasm32-unknown-unknown/release/borrowbond_escrow.wasm
+          sha256sum target/wasm32-unknown-unknown/release/borrowbond_escrow.wasm > target/wasm32-unknown-unknown/release/borrowbond_escrow.wasm.sha256
+          cat target/wasm32-unknown-unknown/release/borrowbond_escrow.wasm.sha256
+
+      - name: Upload compiled WASM artifact & SHA-256 checksum
+        uses: actions/upload-artifact@v4
+        with:
+          name: borrowbond-escrow-wasm
+          path: |
+            contracts/borrowbond/target/wasm32-unknown-unknown/release/borrowbond_escrow.wasm
+            contracts/borrowbond/target/wasm32-unknown-unknown/release/borrowbond_escrow.wasm.sha256
+          retention-days: 90

@@ -3,17 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Gracefully silence benign Vite HMR WebSocket disconnection errors in cloud proxy environments
+      (function() {
+        var origError = console.error;
+        console.error = function() {
+          for (var i = 0; i < arguments.length; i++) {
+            var arg = arguments[i];
+            var msg = (arg && (arg.message || arg.stack)) || String(arg || '');
+            if (msg.indexOf('WebSocket closed without opened') !== -1 || msg.indexOf('[vite] connect failed') !== -1) {
+              return;
+            }
+          }
+          origError.apply(console, arguments);
+        };
+        window.addEventListener('error', function(e) {
+          var msg = (e && (e.message || (e.error && e.error.message))) || '';
+          if (typeof msg === 'string' && msg.indexOf('WebSocket closed without opened') !== -1) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+          }
+        }, true);
+        window.addEventListener('unhandledrejection', function(e) {
+          var reason = e && e.reason;
+          var msg = (reason && (reason.message || reason.stack)) || String(reason || '');
+          if (typeof msg === 'string' && msg.indexOf('WebSocket closed without opened') !== -1) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+          }
+        }, true);
+      })();
+    </script>
     <title>BorrowBond — Borrow anything. Secure every agreement.</title>
     <meta name="description" content="Intelligent peer-to-peer marketplace where individuals, businesses, and authorized AI agents discover, rent, and temporarily access physical and digital resources through transparent borrowing agreements, refundable collateral, and NEAR-powered escrow." />
     <meta property="og:title" content="BorrowBond — Borrow anything. Secure every agreement." />
     <meta property="og:description" content="Intelligent peer-to-peer marketplace where individuals, businesses, and authorized AI agents discover, rent, and temporarily access physical and digital resources through transparent borrowing agreements, refundable collateral, and NEAR-powered escrow." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#06080F" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="BorrowBond" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
-  <body class="bg-[#0B1020] text-[#F3F6FC] antialiased selection:bg-[#5EEAD4]/20 selection:text-[#5EEAD4]">
+  <body class="bg-[#06080F] text-[#F5F8FF] antialiased selection:bg-[#00EC97]/25 selection:text-[#00EC97]">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
